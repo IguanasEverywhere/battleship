@@ -21,7 +21,7 @@ const Ship = (shipLength) => {
     hitCount = 0;
   }
 
-  return {shipLength, getHitCount, hit, isSunk, clearHitCount}
+  return {shipLength, getHitCount, hit, isSunk, clearHitCount }
 }
 
 const carrier = Ship(5);

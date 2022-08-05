@@ -18,6 +18,10 @@ describe('testing board setup including ship placement', () => {
     test('expect battleShip to starting at 01 to cover thru 31', () => {
         expect(playerGameboard.placeShipHorizontally(battleShip, 0, 1)).toEqual([{ shipObj: battleShip, xCoord: 0, yCoord: 1 }, { shipObj: battleShip, xCoord: 1, yCoord: 1 }, { shipObj: battleShip, xCoord: 2, yCoord: 1 }, { shipObj: battleShip, xCoord: 3, yCoord: 1 }]);
     });
+
+    test ('expect submarine placed vertically at 40 to cover thru 42', () => {
+        expect(playerGameboard.placeShipVertically(submarine, 4, 0)).toEqual([{shipObj: submarine, xCoord: 4, yCoord: 0}, {shipObj: submarine, xCoord: 4, yCoord: 1}, {shipObj: submarine, xCoord: 4, yCoord: 2}]);
+    });
 });
 
 describe('testing receiveAttack hits and misses', () => {

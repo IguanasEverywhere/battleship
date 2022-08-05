@@ -26,6 +26,13 @@ const gameboard = () => {
         return placedShipArray;
     }
 
+    const placeShipVertically = (ship, startingXCoord, startingYCoord) => {
+        for (let i = 0; i < ship.shipLength; i++) {
+            placedShipArray.push({ shipObj: ship, xCoord: startingXCoord, yCoord: startingYCoord + i });
+        }
+        return placedShipArray;
+    }
+
     const resetPieces = () => {
         placedShipArray = [];
         return placedShipArray;
@@ -54,7 +61,7 @@ const gameboard = () => {
         }
     }
 
-    return { getCoordinatesArr, placeShipHorizontally, resetPieces, receiveAttack, clearMissedShots, allShipsSunk };
+    return { getCoordinatesArr, placeShipHorizontally, placeShipVertically, resetPieces, receiveAttack, clearMissedShots, allShipsSunk };
 }
 
 const playerGameboard = gameboard();

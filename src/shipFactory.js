@@ -1,4 +1,4 @@
-const Ship = (shipLength) => {
+const Ship = (shipName, shipLength) => {
   let hitCount = 0;
 
   const hit = () => {
@@ -21,13 +21,13 @@ const Ship = (shipLength) => {
     hitCount = 0;
   }
 
-  return {shipLength, getHitCount, hit, isSunk, clearHitCount }
+  return {shipName, shipLength, getHitCount, hit, isSunk, clearHitCount }
 }
 
-const carrier = Ship(5);
-const battleShip = Ship(4);
-const cruiser = Ship(3);
-const submarine = Ship(3);
-const destroyer = Ship(2);
+const carrier = Ship("carrier", 5);
+const battleShip = Ship("battleship", 4);
+const cruiser = Ship("cruiser", 3);
+const submarine = Ship("submarine", 3);
+const destroyer = Ship("destroyer", 2);
 
 export { battleShip, carrier, cruiser, submarine, destroyer }

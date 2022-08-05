@@ -16,9 +16,9 @@ const gameboard = () => {
         return coordinatesArr;
     }
 
-    const placeShipHorizontally = (shipLength, startingXCoord, startingYCoord) => {
-        for (let i = 0; i < shipLength; i++) {
-            placedShipArray.push({xCoord:startingXCoord + i, yCoord: startingYCoord});
+    const placeShipHorizontally = (ship, startingXCoord, startingYCoord) => {
+        for (let i = 0; i < ship.shipLength; i++) {
+            placedShipArray.push({shipObj: ship, xCoord:startingXCoord + i, yCoord: startingYCoord});
         }
         return placedShipArray;
     }
@@ -29,8 +29,10 @@ const gameboard = () => {
     }
 
     const receiveAttack = (x, y) => {
-        if (placedShipArray.find(ship => ship.xCoord === x && ship.yCoord === y)) {
-            return "hit";
+        let foundShip = placedShipArray.find(ship => ship.xCoord === x && ship.yCoord === y);
+        if (foundShip) {
+            foundShip.shipObj.hit();
+            return foundShip.shipObj;
         } else  {
             return "miss";
         }

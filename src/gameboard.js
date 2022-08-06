@@ -1,4 +1,4 @@
-import { carrier, cruiser, battleShip, submarine, destroyer } from './shipFactory';
+import { carrier, cruiser, battleShip, submarine, destroyer, carrierComputer, cruiserComputer, battleShipComputer, submarineComputer, destroyerComputer } from './shipFactory';
 
 const gameboard = () => {
     let coordinatesArr = [];
@@ -56,6 +56,8 @@ const gameboard = () => {
     const allShipsSunk = () => {
         if (carrier.isSunk() && cruiser.isSunk() && battleShip.isSunk() && submarine.isSunk() && destroyer.isSunk()) {
             return true;
+        } else if (carrierComputer.isSunk() && cruiserComputer.isSunk() && battleShipComputer.isSunk() && submarineComputer.isSunk() && destroyerComputer.isSunk()) {
+            return true;
         } else {
             return false;
         }
@@ -65,5 +67,6 @@ const gameboard = () => {
 }
 
 const playerGameboard = gameboard();
+const computerGameboard = gameboard();
 
-export { playerGameboard }
+export { playerGameboard, computerGameboard }

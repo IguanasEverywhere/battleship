@@ -36,6 +36,4 @@ const cruiserComputer = Ship("cruiser", 3);
 const submarineComputer = Ship("submarine", 3);
 const destroyerComputer = Ship("destroyer", 2);
 
-// create ships for computerGameboard as well?
-
 export { battleShip, carrier, cruiser, submarine, destroyer, carrierComputer, battleShipComputer, cruiserComputer, submarineComputer, destroyerComputer }

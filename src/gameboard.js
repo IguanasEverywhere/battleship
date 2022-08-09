@@ -4,12 +4,14 @@ const gameboard = () => {
     let coordinatesArr = [];
     let placedShipArray = [];
     let missedShots = [];
+    let landedShots = [];
 
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
             let coordObj = {
                 xCoord: i,
-                yCoord: j
+                yCoord: j,
+                spaceOccupied: false
             };
             coordinatesArr.push(coordObj);
         }
@@ -19,14 +21,14 @@ const gameboard = () => {
         return coordinatesArr;
     }
 
-    const placeShipHorizontally = (ship, startingXCoord, startingYCoord) => {
+    const placeShipVertically = (ship, startingXCoord, startingYCoord) => {
         for (let i = 0; i < ship.shipLength; i++) {
             placedShipArray.push({ shipObj: ship, xCoord: startingXCoord + i, yCoord: startingYCoord });
         }
         return placedShipArray;
     }
 
-    const placeShipVertically = (ship, startingXCoord, startingYCoord) => {
+    const placeShipHorizontally = (ship, startingXCoord, startingYCoord) => {
         for (let i = 0; i < ship.shipLength; i++) {
             placedShipArray.push({ shipObj: ship, xCoord: startingXCoord, yCoord: startingYCoord + i });
         }
@@ -45,6 +47,7 @@ const gameboard = () => {
     const receiveAttack = (x, y) => {
         let foundShip = placedShipArray.find(ship => ship.xCoord === x && ship.yCoord === y);
         if (foundShip) {
+            landedShots.push({ x: x, y: y });
             foundShip.shipObj.hit();
             return foundShip.shipObj;
         } else {
@@ -63,7 +66,7 @@ const gameboard = () => {
         }
     }
 
-    return { getCoordinatesArr, placeShipHorizontally, placeShipVertically, resetPieces, receiveAttack, clearMissedShots, allShipsSunk };
+    return { coordinatesArr, placedShipArray, getCoordinatesArr, placeShipHorizontally, placeShipVertically, resetPieces, receiveAttack, clearMissedShots, allShipsSunk, missedShots, landedShots };
 }
 
 const playerGameboard = gameboard();

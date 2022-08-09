@@ -13,16 +13,15 @@ describe('testing board setup including ship placement', () => {
         expect(playerGameboard.getCoordinatesArr().length).toBe(100);
     });
 
-    test('expect cruiser starting at 00 to cover thru 20', () => {
-        expect(playerGameboard.placeShipHorizontally(cruiser, 0, 0)).toEqual([{ shipObj: cruiser, xCoord: 0, yCoord: 0 }, { shipObj: cruiser, xCoord: 1, yCoord: 0 }, { shipObj: cruiser, xCoord: 2, yCoord: 0 }]);
+    test('expect battleship to cover 01 thru 31 and cruiser starting at 00 to cover thru 20', () => {
+        playerGameboard.placeShipVertically(battleShip, 0, 1);
+        expect(playerGameboard.placeShipVertically(cruiser, 0, 0)).toEqual([{ shipObj: battleShip, xCoord: 0, yCoord: 1 }, { shipObj: battleShip, xCoord: 1, yCoord: 1 }, { shipObj: battleShip, xCoord: 2, yCoord: 1 }, { shipObj: battleShip, xCoord: 3, yCoord: 1 }, { shipObj: cruiser, xCoord: 0, yCoord: 0 }, { shipObj: cruiser, xCoord: 1, yCoord: 0 }, { shipObj: cruiser, xCoord: 2, yCoord: 0 }]);
     });
 
-    test('expect battleShip to starting at 01 to cover thru 31', () => {
-        expect(playerGameboard.placeShipHorizontally(battleShip, 0, 1)).toEqual([{ shipObj: battleShip, xCoord: 0, yCoord: 1 }, { shipObj: battleShip, xCoord: 1, yCoord: 1 }, { shipObj: battleShip, xCoord: 2, yCoord: 1 }, { shipObj: battleShip, xCoord: 3, yCoord: 1 }]);
-    });
-
-    test('expect submarine placed vertically at 40 to cover thru 42', () => {
-        expect(playerGameboard.placeShipVertically(submarine, 4, 0)).toEqual([{ shipObj: submarine, xCoord: 4, yCoord: 0 }, { shipObj: submarine, xCoord: 4, yCoord: 1 }, { shipObj: submarine, xCoord: 4, yCoord: 2 }]);
+    test('expect submarine placed horizontally at 40 to cover thru 42 and to be added to battleship and cruiser in array', () => {
+        playerGameboard.placeShipVertically(battleShip, 0, 1);
+        playerGameboard.placeShipVertically(cruiser, 0, 0);
+        expect(playerGameboard.placeShipHorizontally(submarine, 4, 0)).toEqual([{ shipObj: battleShip, xCoord: 0, yCoord: 1 }, { shipObj: battleShip, xCoord: 1, yCoord: 1 }, { shipObj: battleShip, xCoord: 2, yCoord: 1 }, { shipObj: battleShip, xCoord: 3, yCoord: 1 }, { shipObj: cruiser, xCoord: 0, yCoord: 0 }, { shipObj: cruiser, xCoord: 1, yCoord: 0 }, { shipObj: cruiser, xCoord: 2, yCoord: 0 }, { shipObj: submarine, xCoord: 4, yCoord: 0 }, { shipObj: submarine, xCoord: 4, yCoord: 1 }, { shipObj: submarine, xCoord: 4, yCoord: 2 }]);
     });
 });
 
@@ -44,28 +43,28 @@ describe('testing receiveAttack hits and misses', () => {
 
     test('attack received at space covered by cruiser records hit to cruiser', () => {
         playerGameboard.placeShipHorizontally(cruiser, 0, 0);
-        expect(playerGameboard.receiveAttack(1, 0)).toBe(cruiser);
+        expect(playerGameboard.receiveAttack(0, 0)).toBe(cruiser);
     });
 
     test('cruiser hitCount to be 2 after second attack lands', () => {
         playerGameboard.placeShipHorizontally(cruiser, 0, 0);
         playerGameboard.receiveAttack(0, 0);
-        playerGameboard.receiveAttack(1, 0);
+        playerGameboard.receiveAttack(0, 1);
         expect(cruiser.getHitCount()).toBe(2);
     })
 
     test('cruiser isSunk returns false after only 2 previous attacks', () => {
         playerGameboard.placeShipHorizontally(cruiser, 0, 0);
         playerGameboard.receiveAttack(0, 0);
-        playerGameboard.receiveAttack(1, 0);
+        playerGameboard.receiveAttack(0, 1);
         expect(cruiser.isSunk()).toBe(false);
     });
 
     test('cruiser isSunk returns true after a third attack', () => {
         playerGameboard.placeShipHorizontally(cruiser, 0, 0);
         playerGameboard.receiveAttack(0, 0);
-        playerGameboard.receiveAttack(1, 0);
-        playerGameboard.receiveAttack(2, 0);
+        playerGameboard.receiveAttack(0, 1);
+        playerGameboard.receiveAttack(0, 2);
         expect(cruiser.isSunk()).toBe(true);
     });
 
@@ -86,33 +85,34 @@ describe('testing receiveAttack hits and misses', () => {
     });
 
     test('all spots hit from all ships returns true from allShipsSunk fn', () => {
+        playerGameboard.resetPieces();
         playerGameboard.placeShipHorizontally(carrier, 0, 0);
-        playerGameboard.placeShipHorizontally(cruiser, 0, 1);
-        playerGameboard.placeShipHorizontally(battleShip, 0, 2);
-        playerGameboard.placeShipHorizontally(submarine, 0, 3);
-        playerGameboard.placeShipHorizontally(destroyer, 0, 4);
+        playerGameboard.placeShipHorizontally(cruiser, 1, 0);
+        playerGameboard.placeShipHorizontally(battleShip, 2, 0);
+        playerGameboard.placeShipHorizontally(submarine, 3, 0);
+        playerGameboard.placeShipHorizontally(destroyer, 4, 0);
 
         playerGameboard.receiveAttack(0, 0);
-        playerGameboard.receiveAttack(1, 0);
-        playerGameboard.receiveAttack(2, 0);
-        playerGameboard.receiveAttack(3, 0);
-        playerGameboard.receiveAttack(4, 0);
-
         playerGameboard.receiveAttack(0, 1);
-        playerGameboard.receiveAttack(1, 1);
-        playerGameboard.receiveAttack(2, 1);
-
         playerGameboard.receiveAttack(0, 2);
-        playerGameboard.receiveAttack(1, 2);
-        playerGameboard.receiveAttack(2, 2);
-        playerGameboard.receiveAttack(3, 2);
-
         playerGameboard.receiveAttack(0, 3);
-        playerGameboard.receiveAttack(1, 3);
+        playerGameboard.receiveAttack(0, 4);
+
+        playerGameboard.receiveAttack(1, 0);
+        playerGameboard.receiveAttack(1, 1);
+        playerGameboard.receiveAttack(1, 2);
+
+        playerGameboard.receiveAttack(2, 0);
+        playerGameboard.receiveAttack(2, 1);
+        playerGameboard.receiveAttack(2, 2);
         playerGameboard.receiveAttack(2, 3);
 
-        playerGameboard.receiveAttack(0, 4);
-        playerGameboard.receiveAttack(1, 4);
+        playerGameboard.receiveAttack(3, 0);
+        playerGameboard.receiveAttack(3, 1);
+        playerGameboard.receiveAttack(3, 2);
+
+        playerGameboard.receiveAttack(4, 0);
+        playerGameboard.receiveAttack(4, 1);
 
         expect(playerGameboard.allShipsSunk()).toBe(true);
     });
@@ -123,16 +123,16 @@ describe('testing board setup including ship placement COMPUTER gameboard', () =
         expect(computerGameboard.getCoordinatesArr().length).toBe(100);
     });
 
-    test('expect cruiser starting at 00 to cover thru 20', () => {
-        expect(computerGameboard.placeShipHorizontally(cruiser, 0, 0)).toEqual([{ shipObj: cruiser, xCoord: 0, yCoord: 0 }, { shipObj: cruiser, xCoord: 1, yCoord: 0 }, { shipObj: cruiser, xCoord: 2, yCoord: 0 }]);
+    test('expect cruiserComputer starting at 33 to cover thru 53', () => {
+        expect(computerGameboard.placeShipVertically(cruiserComputer, 3, 3)).toEqual([{ shipObj: cruiserComputer, xCoord: 3, yCoord: 3 }, { shipObj: cruiserComputer, xCoord: 4, yCoord: 3 }, { shipObj: cruiserComputer, xCoord: 5, yCoord: 3 }]);
     });
 
-    test('expect battleShip to starting at 01 to cover thru 31', () => {
-        expect(computerGameboard.placeShipHorizontally(battleShip, 0, 1)).toEqual([{ shipObj: battleShip, xCoord: 0, yCoord: 1 }, { shipObj: battleShip, xCoord: 1, yCoord: 1 }, { shipObj: battleShip, xCoord: 2, yCoord: 1 }, { shipObj: battleShip, xCoord: 3, yCoord: 1 }]);
+    test('expect battleShipComputer to starting at 01 to cover thru 31', () => {
+        expect(computerGameboard.placeShipVertically(battleShipComputer, 0, 1)).toEqual([{ shipObj: battleShipComputer, xCoord: 0, yCoord: 1 }, { shipObj: battleShipComputer, xCoord: 1, yCoord: 1 }, { shipObj: battleShipComputer, xCoord: 2, yCoord: 1 }, { shipObj: battleShipComputer, xCoord: 3, yCoord: 1 }]);
     });
 
-    test('expect submarine placed vertically at 40 to cover thru 42', () => {
-        expect(computerGameboard.placeShipVertically(submarine, 4, 0)).toEqual([{ shipObj: submarine, xCoord: 4, yCoord: 0 }, { shipObj: submarine, xCoord: 4, yCoord: 1 }, { shipObj: submarine, xCoord: 4, yCoord: 2 }]);
+    test('expect submarineComputer placed horizontally at 40 to cover thru 42', () => {
+        expect(computerGameboard.placeShipHorizontally(submarineComputer, 4, 0)).toEqual([{ shipObj: submarineComputer, xCoord: 4, yCoord: 0 }, { shipObj: submarineComputer, xCoord: 4, yCoord: 1 }, { shipObj: submarineComputer, xCoord: 4, yCoord: 2 }]);
     });
 });
 
@@ -154,28 +154,28 @@ describe('testing receiveAttack hits and misses on COMPUTER gameboard', () => {
 
     test('attack received at space covered by cruiser records hit to cruiser', () => {
         computerGameboard.placeShipHorizontally(cruiserComputer, 0, 0);
-        expect(computerGameboard.receiveAttack(1, 0)).toBe(cruiserComputer);
+        expect(computerGameboard.receiveAttack(0, 1)).toBe(cruiserComputer);
     });
 
     test('cruiser hitCount to be 2 after second attack lands', () => {
         computerGameboard.placeShipHorizontally(cruiserComputer, 0, 0);
         computerGameboard.receiveAttack(0, 0);
-        computerGameboard.receiveAttack(1, 0);
+        computerGameboard.receiveAttack(0, 1);
         expect(cruiserComputer.getHitCount()).toBe(2);
     });
 
     test('cruiser isSunk returns false after only 2 previous attacks', () => {
         computerGameboard.placeShipHorizontally(cruiserComputer, 0, 0);
         computerGameboard.receiveAttack(0, 0);
-        computerGameboard.receiveAttack(1, 0);
+        computerGameboard.receiveAttack(0, 1);
         expect(cruiserComputer.isSunk()).toBe(false);
     });
 
     test('cruiser isSunk returns true after a third attack', () => {
         computerGameboard.placeShipHorizontally(cruiserComputer, 0, 0);
         computerGameboard.receiveAttack(0, 0);
-        computerGameboard.receiveAttack(1, 0);
-        computerGameboard.receiveAttack(2, 0);
+        computerGameboard.receiveAttack(0, 1);
+        computerGameboard.receiveAttack(0, 2);
         expect(cruiserComputer.isSunk()).toBe(true);
     });
 
@@ -186,7 +186,7 @@ describe('testing receiveAttack hits and misses on COMPUTER gameboard', () => {
 
     test('attack received at 01 records hit to battleship', () => {
         computerGameboard.placeShipHorizontally(battleShipComputer, 0, 1);
-        expect(computerGameboard.receiveAttack(0, 1)).toBe(battleShipComputer);
+        expect(computerGameboard.receiveAttack(0, 2)).toBe(battleShipComputer);
     });
 
     test('two missed shots records correct spaces to missedShots array', () => {
@@ -196,33 +196,34 @@ describe('testing receiveAttack hits and misses on COMPUTER gameboard', () => {
     });
 
     test('all spots hit from all ships returns true from allShipsSunk fn', () => {
+        computerGameboard.resetPieces();
         computerGameboard.placeShipHorizontally(carrierComputer, 0, 0);
-        computerGameboard.placeShipHorizontally(cruiserComputer, 0, 1);
-        computerGameboard.placeShipHorizontally(battleShipComputer, 0, 2);
-        computerGameboard.placeShipHorizontally(submarineComputer, 0, 3);
-        computerGameboard.placeShipHorizontally(destroyerComputer, 0, 4);
+        computerGameboard.placeShipHorizontally(cruiserComputer, 1, 0);
+        computerGameboard.placeShipHorizontally(battleShipComputer, 2, 0);
+        computerGameboard.placeShipHorizontally(submarineComputer, 3, 0);
+        computerGameboard.placeShipHorizontally(destroyerComputer, 4, 0);
 
         computerGameboard.receiveAttack(0, 0);
-        computerGameboard.receiveAttack(1, 0);
-        computerGameboard.receiveAttack(2, 0);
-        computerGameboard.receiveAttack(3, 0);
-        computerGameboard.receiveAttack(4, 0);
-
         computerGameboard.receiveAttack(0, 1);
-        computerGameboard.receiveAttack(1, 1);
-        computerGameboard.receiveAttack(2, 1);
-
         computerGameboard.receiveAttack(0, 2);
-        computerGameboard.receiveAttack(1, 2);
-        computerGameboard.receiveAttack(2, 2);
-        computerGameboard.receiveAttack(3, 2);
-
         computerGameboard.receiveAttack(0, 3);
-        computerGameboard.receiveAttack(1, 3);
+        computerGameboard.receiveAttack(0, 4);
+
+        computerGameboard.receiveAttack(1, 0);
+        computerGameboard.receiveAttack(1, 1);
+        computerGameboard.receiveAttack(1, 2);
+
+        computerGameboard.receiveAttack(2, 0);
+        computerGameboard.receiveAttack(2, 1);
+        computerGameboard.receiveAttack(2, 2);
         computerGameboard.receiveAttack(2, 3);
 
-        computerGameboard.receiveAttack(0, 4);
-        computerGameboard.receiveAttack(1, 4);
+        computerGameboard.receiveAttack(3, 0);
+        computerGameboard.receiveAttack(3, 1);
+        computerGameboard.receiveAttack(3, 2);
+
+        computerGameboard.receiveAttack(4, 0);
+        computerGameboard.receiveAttack(4, 1);
 
         expect(computerGameboard.allShipsSunk()).toBe(true);
     });

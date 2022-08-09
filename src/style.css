@@ -1,6 +1,23 @@
-.hello {
-    color: red;
-    /* background: url('./claire.jpeg'); */
-  }
+.boards-container {
+  border: 2px solid green;
+  display: flex;
+  justify-content: space-around;
+}
 
+.player-board {
+  border: 2px solid black;
+  height: 500px;
+  width: 500px;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.board-space {
+  border: 1px solid red;
+}
+
+.occupied-space {
+  background-color: gray;
+}
   

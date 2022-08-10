@@ -25,4 +25,4 @@ const randomCoordGenerator = () => {
     return num;
 }
 
-export {humanAttack, computerAttack}
+export { humanAttack, computerAttack }

@@ -1,6 +1,7 @@
 import './style.css';
 import { playerGameboard, computerGameboard } from './gameboard';
-import { placeShips } from './gameLoop';
+import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer } from "./shipFactory";
+import { controlGame } from './gameLoop';
 
 const renderBoard = () => {
 
@@ -26,14 +27,16 @@ const renderBoard = () => {
     playerBoard.appendChild(space);
   });
 
-  computerGameboard.coordinatesArr.forEach(coordinatePair => {
+  computerGameboard.coordinatesArr.forEach(coordObj => {
     let space = document.createElement("div");
-    let spaceCoords = { coordinatePair };
-    space.classList.add("board-space");
+    space.setAttribute('xCoord', coordObj.xCoord);
+    space.setAttribute('yCoord', coordObj.yCoord);
+    space.setAttribute('isOccupied', coordObj.spaceOccupied);
+    space.classList.add("computer-board-space");
+    if (space.getAttribute("isOccupied") === 'true') {
+      space.style.backgroundColor = "gray"
+    }
     computerBoard.appendChild(space);
-    space.addEventListener('click', () => {
-      space.textContent = "X";
-    });
   });
 
   const placeShipsBtn = document.createElement("button");
@@ -41,13 +44,51 @@ const renderBoard = () => {
   boardsContainer.appendChild(placeShipsBtn);
 
   placeShipsBtn.addEventListener('click', () => {
-    placeShips();
+    placeShipsPlayer();
+    placeShipsComputer();
   });
 }
 
 renderBoard();
 
+const placeShipsPlayer = () => {
+  playerGameboard.placeShipVertically(battleShip, 0, 0);
+  playerGameboard.placeShipVertically(cruiser, 0, 2);
+  playerGameboard.placeShipHorizontally(destroyer, 5, 0);
+  playerGameboard.placeShipHorizontally(carrier, 1, 5);
+  playerGameboard.placeShipHorizontally(submarine, 7, 3);
+  playerGameboard.placedShipArray.forEach(spot => {
+    let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
+    if (occupiedSpace) {
+      occupiedSpace.spaceOccupied = true;
+    }
+  });
 
+  let boardsContainer = document.getElementsByClassName('boards-container')[0];
+  boardsContainer.remove();
+
+  renderBoard();
+}
+
+const placeShipsComputer = () => {
+  computerGameboard.placeShipVertically(battleShipComputer, 3, 0);
+  computerGameboard.placeShipVertically(cruiserComputer, 4, 8);
+  computerGameboard.placeShipHorizontally(destroyerComputer, 9, 0);
+  computerGameboard.placeShipHorizontally(carrierComputer, 0, 5);
+  computerGameboard.placeShipHorizontally(submarineComputer, 5, 4);
+  computerGameboard.placedShipArray.forEach(spot => {
+    let occupiedSpace = computerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
+    if (occupiedSpace) {
+      occupiedSpace.spaceOccupied = true;
+    }
+  });
+
+  let boardsContainer = document.getElementsByClassName('boards-container')[0];
+  boardsContainer.remove();
+
+  renderBoard();
+  controlGame();
+}
 
 
 export { renderBoard }

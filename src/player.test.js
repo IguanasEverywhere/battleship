@@ -14,3 +14,7 @@ test('human player attacking 00 when cruiserComputer is there records hit to cru
 test('human player attacking an already attacked spot returns null', () => {
     expect(humanAttack(5, 5)).toEqual(null);
 });
+
+test('human player attacking another already attacked spot returns null', () => {
+    expect(humanAttack(0, 0)).toEqual(null);
+});

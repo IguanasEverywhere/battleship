@@ -13,7 +13,7 @@
   grid-template-rows: repeat(10, 1fr);
 }
 
-.board-space {
+.board-space, .computer-board-space {
   border: 1px solid red;
 }
 

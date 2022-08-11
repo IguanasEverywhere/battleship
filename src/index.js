@@ -19,6 +19,8 @@ const renderBoard = () => {
 
   playerGameboard.coordinatesArr.forEach(coordObj => {
     let space = document.createElement("div");
+    space.setAttribute('xCoord', coordObj.xCoord);
+    space.setAttribute('yCoord', coordObj.yCoord);
     space.setAttribute('isOccupied', coordObj.spaceOccupied);
     space.classList.add("board-space");
     if (space.getAttribute("isOccupied") === 'true') {

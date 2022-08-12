@@ -1,6 +1,6 @@
 import './style.css';
 import { playerGameboard, computerGameboard } from './gameboard';
-import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer } from "./shipFactory";
+import { placeShipsPlayer, placeShipsComputer } from './player';
 import { controlGame } from './gameLoop';
 
 const renderBoard = () => {
@@ -48,50 +48,10 @@ const renderBoard = () => {
   placeShipsBtn.addEventListener('click', () => {
     placeShipsPlayer();
     placeShipsComputer();
+    controlGame();
   });
 }
 
 renderBoard();
 
-const placeShipsPlayer = () => {
-  playerGameboard.placeShipVertically(battleShip, 0, 0);
-  playerGameboard.placeShipVertically(cruiser, 0, 2);
-  playerGameboard.placeShipHorizontally(destroyer, 5, 0);
-  playerGameboard.placeShipHorizontally(carrier, 1, 5);
-  playerGameboard.placeShipHorizontally(submarine, 7, 3);
-  playerGameboard.placedShipArray.forEach(spot => {
-    let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
-    if (occupiedSpace) {
-      occupiedSpace.spaceOccupied = true;
-    }
-  });
-
-  let boardsContainer = document.getElementsByClassName('boards-container')[0];
-  boardsContainer.remove();
-
-  renderBoard();
-}
-
-const placeShipsComputer = () => {
-  computerGameboard.placeShipVertically(battleShipComputer, 3, 0);
-  computerGameboard.placeShipVertically(cruiserComputer, 4, 8);
-  computerGameboard.placeShipHorizontally(destroyerComputer, 9, 0);
-  computerGameboard.placeShipHorizontally(carrierComputer, 0, 5);
-  computerGameboard.placeShipHorizontally(submarineComputer, 5, 4);
-  computerGameboard.placedShipArray.forEach(spot => {
-    let occupiedSpace = computerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
-    if (occupiedSpace) {
-      occupiedSpace.spaceOccupied = true;
-    }
-  });
-
-  let boardsContainer = document.getElementsByClassName('boards-container')[0];
-  boardsContainer.remove();
-
-  renderBoard();
-  controlGame();
-}
-
-
 export { renderBoard }
-

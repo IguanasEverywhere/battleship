@@ -14,7 +14,6 @@ const playerTurn = () => {
             humanAttack(Number(space.getAttribute("xcoord")), Number(space.getAttribute("ycoord")));
         });
     });
-
 }
 
 const humanAttack = (xCoord, yCoord) => {

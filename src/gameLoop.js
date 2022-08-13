@@ -4,11 +4,19 @@ import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer,
 import { renderBoard } from ".";
 
 const placeShipsPlayer = () => {
-    playerGameboard.placeShipVertically(battleShip, 0, 0);
-    playerGameboard.placeShipVertically(cruiser, 0, 2);
-    playerGameboard.placeShipHorizontally(destroyer, 5, 0);
-    playerGameboard.placeShipHorizontally(carrier, 1, 5);
-    playerGameboard.placeShipHorizontally(submarine, 7, 3);
+    // playerGameboard.placeShipVertically(battleShip, 0, 0);
+    // playerGameboard.placeShipVertically(cruiser, 0, 2);
+    // playerGameboard.placeShipHorizontally(destroyer, 5, 0);
+    // playerGameboard.placeShipHorizontally(carrier, 1, 5);
+    // playerGameboard.placeShipHorizontally(submarine, 7, 3);
+   
+    let playerBoardSpaces = document.querySelectorAll(".board-space");
+    playerBoardSpaces.forEach(space => {
+        space.addEventListener("click", () => {
+            console.log('test');
+        });
+    })
+
     playerGameboard.placedShipArray.forEach(spot => {
         let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
         if (occupiedSpace) {
@@ -43,13 +51,13 @@ const placeShipsComputer = () => {
 
 const controlGame = (turn) => {
 
-    if (turn ==="gameOver") {
+    if (turn === "gameOver") {
         const gameOverModal = document.createElement("div");
         gameOverModal.classList.add("game-over");
         gameOverModal.textContent = "Game Over!!";
         const boardsContainer = document.getElementsByClassName("boards-container")[0];
         boardsContainer.appendChild(gameOverModal);
-        
+
     }
     if (turn === "playerTurn") {
         playerTurn();

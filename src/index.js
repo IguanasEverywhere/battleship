@@ -48,7 +48,7 @@ const renderBoard = () => {
   placeShipsBtn.addEventListener('click', () => {
     placeShipsPlayer();
     placeShipsComputer();
-    controlGame();
+    controlGame("playerTurn");
   });
 }
 

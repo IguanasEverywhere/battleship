@@ -1,6 +1,7 @@
 import { playerGameboard, computerGameboard } from "./gameboard";
 import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer } from "./shipFactory";
 import { renderBoard } from ".";
+import { controlGame } from "./gameLoop";
 
 const placeShipsPlayer = () => {
     playerGameboard.placeShipVertically(battleShip, 0, 0);
@@ -28,17 +29,17 @@ const placeShipsComputer = () => {
     computerGameboard.placeShipHorizontally(carrierComputer, 0, 5);
     computerGameboard.placeShipHorizontally(submarineComputer, 5, 4);
     computerGameboard.placedShipArray.forEach(spot => {
-      let occupiedSpace = computerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
-      if (occupiedSpace) {
-        occupiedSpace.spaceOccupied = true;
-      }
+        let occupiedSpace = computerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
+        if (occupiedSpace) {
+            occupiedSpace.spaceOccupied = true;
+        }
     });
-  
+
     let boardsContainer = document.getElementsByClassName('boards-container')[0];
     boardsContainer.remove();
-  
+
     renderBoard();
-  }
+}
 
 const playerTurn = () => {
     let computerBoardSpaces = document.querySelectorAll(".computer-board-space");
@@ -51,14 +52,9 @@ const playerTurn = () => {
                 space.style.backgroundColor = "green"
             }
             humanAttack(Number(space.getAttribute("xcoord")), Number(space.getAttribute("ycoord")));
-            if (computerGameboard.allShipsSunk()) {
-                alert("GAME OVER! Player Wins");
-            }
-            setTimeout(() => {
-                computerTurn();
-            }, 1000);
         });
     });
+
 }
 
 const humanAttack = (xCoord, yCoord) => {
@@ -67,7 +63,14 @@ const humanAttack = (xCoord, yCoord) => {
     if (prevShotHit || prevShotMiss) {
         return null;
     }
-    return computerGameboard.receiveAttack(xCoord, yCoord);
+    let receivedPlayerAttack = computerGameboard.receiveAttack(xCoord, yCoord);
+    if (computerGameboard.allShipsSunk()) {
+        controlGame("gameOver");
+    } else {
+        controlGame("computerTurn");
+    }
+
+    return receivedPlayerAttack;
 }
 
 
@@ -85,19 +88,25 @@ const computerTurn = () => {
             } else {
                 space.style.backgroundColor = "green";
             }
-
         }
     });
-
 }
 
 const computerAttack = (xCoord, yCoord) => {
     let prevShotHit = playerGameboard.landedShots.find(shot => shot.x === xCoord && shot.y === yCoord);
     let prevShotMiss = playerGameboard.missedShots.find(shot => shot.x === xCoord && shot.y === yCoord);
     if (prevShotHit || prevShotMiss) {
+        computerTurn();
         return null;
     }
-    return playerGameboard.receiveAttack(xCoord, yCoord);
+    let receivedComputerAttack = playerGameboard.receiveAttack(xCoord, yCoord);
+    if (playerGameboard.allShipsSunk()) {
+        controlGame("gameOver");
+    } else {
+        controlGame("playerTurn");
+    }
+
+    return receivedComputerAttack;
 }
 
 const randomCoordGenerator = () => {

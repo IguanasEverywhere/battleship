@@ -1,6 +1,6 @@
 import './style.css';
 import { playerGameboard, computerGameboard } from './gameboard';
-import { placeShipsPlayer, placeShipsComputer } from './player';
+import { placeShipsPlayer, placeShipsComputer } from './gameLoop';
 import { controlGame } from './gameLoop';
 
 const renderBoard = () => {

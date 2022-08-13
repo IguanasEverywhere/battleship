@@ -20,4 +20,11 @@
 .occupied-space {
   background-color: gray;
 }
+
+.game-over {
+  position: absolute;
+  background-color: blue;
+  height: 50%;
+  width: 50%;
+}
   

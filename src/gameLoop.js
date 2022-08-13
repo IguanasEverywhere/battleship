@@ -3,7 +3,12 @@ import { computerTurn, playerTurn } from "./player";
 const controlGame = (turn) => {
 
     if (turn ==="gameOver") {
-        alert("over, man");
+        const gameOverModal = document.createElement("div");
+        gameOverModal.classList.add("game-over");
+        gameOverModal.textContent = "Game Over";
+        const boardsContainer = document.getElementsByClassName("boards-container")[0];
+        boardsContainer.appendChild(gameOverModal);
+        
     }
     if (turn === "playerTurn") {
         playerTurn();

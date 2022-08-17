@@ -1,7 +1,10 @@
 import './style.css';
 import { playerGameboard, computerGameboard } from './gameboard';
-import { placeShipsPlayer, placeShipsComputer } from './gameLoop';
+import { placeShipsPlayer, placeShipsComputer, setUpBoard } from './gameLoop';
 import { controlGame } from './gameLoop';
+import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer } from "./shipFactory";
+
+
 
 const renderBoard = () => {
 
@@ -46,11 +49,12 @@ const renderBoard = () => {
   boardsContainer.appendChild(placeShipsBtn);
 
   placeShipsBtn.addEventListener('click', () => {
-    placeShipsComputer();
-    placeShipsPlayer();
-    
+    // placeShipsComputer();
+    // placeShipsPlayer(carrier);
+    setUpBoard();
     controlGame("playerTurn");
   });
+
 }
 
 renderBoard();

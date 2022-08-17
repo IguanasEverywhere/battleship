@@ -23,14 +23,14 @@ const gameboard = () => {
 
     const placeShipVertically = (ship, startingXCoord, startingYCoord) => {
         for (let i = 0; i < ship.shipLength; i++) {
-            placedShipArray.push({ shipObj: ship, xCoord: startingXCoord + i, yCoord: startingYCoord });
+            placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord + i), yCoord: Number(startingYCoord) });
         }
         return placedShipArray;
     }
 
     const placeShipHorizontally = (ship, startingXCoord, startingYCoord) => {
         for (let i = 0; i < ship.shipLength; i++) {
-            placedShipArray.push({ shipObj: ship, xCoord: startingXCoord, yCoord: startingYCoord + i });
+            placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord), yCoord: Number(startingYCoord) + i });
         }
         return placedShipArray;
     }

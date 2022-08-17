@@ -1,33 +1,84 @@
 import { computerTurn, playerTurn } from "./player";
 import { playerGameboard, computerGameboard } from "./gameboard";
-import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer } from "./shipFactory";
 import { renderBoard } from ".";
+import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer } from "./shipFactory";
 
-const placeShipsPlayer = () => {
-    // playerGameboard.placeShipVertically(battleShip, 0, 0);
+
+const setUpBoard = () => {
+ placeShipsPlayer(carrier);
+
+}
+
+const placeShipsPlayer = (currentShip) => {
+    // playerGameboard.placeShipHorizontally(battleShip, 0, 0);
     // playerGameboard.placeShipVertically(cruiser, 0, 2);
     // playerGameboard.placeShipHorizontally(destroyer, 5, 0);
     // playerGameboard.placeShipHorizontally(carrier, 1, 5);
     // playerGameboard.placeShipHorizontally(submarine, 7, 3);
-   
+
     let playerBoardSpaces = document.querySelectorAll(".board-space");
     playerBoardSpaces.forEach(space => {
-        space.addEventListener("click", () => {
-            console.log('test');
+        space.addEventListener("mouseover", () => {
+            previewPlacement(space, currentShip);
         });
-    })
+        space.addEventListener("mouseout", () => {
+            playerBoardSpaces.forEach(spot => {
+                if (spot.getAttribute("isoccupied") === "true") {
+                    spot.style.backgroundColor = "gray";
+                } else {
+                    spot.style.backgroundColor = "white";
+                }
 
-    playerGameboard.placedShipArray.forEach(spot => {
-        let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
-        if (occupiedSpace) {
-            occupiedSpace.spaceOccupied = true;
-        }
+            });
+        });
+        space.addEventListener('click', () => {
+            playerGameboard.placeShipHorizontally(currentShip, space.getAttribute('xCoord'), space.getAttribute('yCoord'));
+console.log(playerGameboard.placedShipArray)
+            playerGameboard.placedShipArray.forEach(spot => {
+                let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
+                if (occupiedSpace) {
+                    occupiedSpace.spaceOccupied = true;
+                }
+            });
+
+            let boardsContainer = document.getElementsByClassName('boards-container')[0];
+            boardsContainer.remove();
+            renderBoard();
+
+        });
+
     });
 
-    let boardsContainer = document.getElementsByClassName('boards-container')[0];
-    boardsContainer.remove();
+    const previewPlacement = (space, ship) => {
+        let currentSpaceX = Number((space.getAttribute('xcoord')));
+        let currentSpaceY = Number((space.getAttribute('ycoord')));
+        if (currentSpaceY <= (9 - ship.shipLength + 1)) {
+            playerBoardSpaces.forEach(otherSpace => {
+                let otherSpaceX = Number(otherSpace.getAttribute("xCoord"));
+                let otherSpaceY = Number(otherSpace.getAttribute("yCoord"));
+                if (otherSpaceX === currentSpaceX && otherSpaceY <= currentSpaceY + (ship.shipLength - 1) && (otherSpaceY) >= currentSpaceY) {
+                    otherSpace.style.backgroundColor = "gray";
+                }
+            });
+        }
 
-    renderBoard();
+    }
+
+
+
+
+
+    // playerGameboard.placedShipArray.forEach(spot => {
+    //     let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
+    //     if (occupiedSpace) {
+    //         occupiedSpace.spaceOccupied = true;
+    //     }
+    // });
+
+    // let boardsContainer = document.getElementsByClassName('boards-container')[0];
+    // boardsContainer.remove();
+
+    // renderBoard();
 }
 
 const placeShipsComputer = () => {
@@ -72,5 +123,5 @@ const controlGame = (turn) => {
     }
 }
 
-export { controlGame, placeShipsComputer, placeShipsPlayer }
+export { controlGame, placeShipsComputer, placeShipsPlayer, setUpBoard }
 

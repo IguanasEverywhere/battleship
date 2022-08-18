@@ -44,19 +44,43 @@ const renderBoard = () => {
     computerBoard.appendChild(space);
   });
 
-  const placeShipsBtn = document.createElement("button");
-  placeShipsBtn.textContent = "Place Ships";
-  boardsContainer.appendChild(placeShipsBtn);
+  if (playerGameboard.placedShipArray.length === 17) {
+    const beginGameBtn = document.createElement("button");
+    beginGameBtn.textContent = "Begin Game";
+    boardsContainer.appendChild(beginGameBtn);
+  
+    beginGameBtn.addEventListener('click', () => {
+      placeShipsComputer();
+      // placeShipsPlayer(carrier);
+      controlGame("playerTurn");
+    });
+  }
 
-  placeShipsBtn.addEventListener('click', () => {
-    // placeShipsComputer();
-    // placeShipsPlayer(carrier);
-    setUpBoard();
-    controlGame("playerTurn");
-  });
 
 }
 
+const renderShipsToPlace = () => {
+
+  const shipsArea = document.createElement("div");
+  shipsArea.classList.add("ships-area");
+  document.body.appendChild(shipsArea);
+
+  let playerShipsArray = [carrier, destroyer, submarine, cruiser, battleShip];
+
+  playerShipsArray.forEach(ship => {
+    let shipBtn = document.createElement("button");
+    shipBtn.textContent = ship.shipName;
+    shipsArea.appendChild(shipBtn);
+    shipBtn.addEventListener('click', () => {
+      placeShipsPlayer(ship);
+      shipsArea.removeChild(shipBtn);
+    });
+  });
+}
+
+renderShipsToPlace();
 renderBoard();
+
+
 
 export { renderBoard }

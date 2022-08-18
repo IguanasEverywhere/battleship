@@ -27,4 +27,8 @@
   height: 50%;
   width: 50%;
 }
+
+.ships-area {
+  border: 2px solid yellow;
+}
   

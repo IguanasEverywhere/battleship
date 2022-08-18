@@ -4,17 +4,13 @@ import { renderBoard } from ".";
 import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer } from "./shipFactory";
 
 
-const setUpBoard = () => {
- placeShipsPlayer(carrier);
-
-}
-
 const placeShipsPlayer = (currentShip) => {
     // playerGameboard.placeShipHorizontally(battleShip, 0, 0);
     // playerGameboard.placeShipVertically(cruiser, 0, 2);
     // playerGameboard.placeShipHorizontally(destroyer, 5, 0);
     // playerGameboard.placeShipHorizontally(carrier, 1, 5);
     // playerGameboard.placeShipHorizontally(submarine, 7, 3);
+
 
     let playerBoardSpaces = document.querySelectorAll(".board-space");
     playerBoardSpaces.forEach(space => {
@@ -33,7 +29,7 @@ const placeShipsPlayer = (currentShip) => {
         });
         space.addEventListener('click', () => {
             playerGameboard.placeShipHorizontally(currentShip, space.getAttribute('xCoord'), space.getAttribute('yCoord'));
-console.log(playerGameboard.placedShipArray)
+            console.log(playerGameboard.placedShipArray)
             playerGameboard.placedShipArray.forEach(spot => {
                 let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
                 if (occupiedSpace) {
@@ -123,5 +119,5 @@ const controlGame = (turn) => {
     }
 }
 
-export { controlGame, placeShipsComputer, placeShipsPlayer, setUpBoard }
+export { controlGame, placeShipsComputer, placeShipsPlayer }
 

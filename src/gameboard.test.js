@@ -134,6 +134,12 @@ describe('testing board setup including ship placement COMPUTER gameboard', () =
     test('expect submarineComputer placed horizontally at 40 to cover thru 42', () => {
         expect(computerGameboard.placeShipHorizontally(submarineComputer, 4, 0)).toEqual([{ shipObj: submarineComputer, xCoord: 4, yCoord: 0 }, { shipObj: submarineComputer, xCoord: 4, yCoord: 1 }, { shipObj: submarineComputer, xCoord: 4, yCoord: 2 }]);
     });
+
+    test('overlapping ships returns duplicate placement', () => {
+        computerGameboard.placeShipHorizontally(carrierComputer, 0, 0);
+        expect(computerGameboard.placeShipHorizontally(battleShipComputer, 0, 3)).toBe("duplicate");
+
+    });
 });
 
 describe('testing receiveAttack hits and misses on COMPUTER gameboard', () => {

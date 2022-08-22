@@ -29,11 +29,24 @@ const gameboard = () => {
     }
 
     const placeShipHorizontally = (ship, startingXCoord, startingYCoord) => {
-        for (let i = 0; i < ship.shipLength; i++) {
-            placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord), yCoord: Number(startingYCoord) + i });
+
+        if (placedShipArray.find(spot => spot.xCoord === Number(startingXCoord))) {
+            for (let i = 0; i < ship.shipLength; i++) {
+                if (placedShipArray.find(space => space.yCoord === Number(startingYCoord) + i)) {
+                    console.log("found");
+                    return "duplicate"
+                }
+            }
+        } else {
+            for (let i = 0; i < ship.shipLength; i++) {
+                placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord), yCoord: Number(startingYCoord) + i });
+            }
+            return placedShipArray;
         }
-        return placedShipArray;
+
     }
+
+
 
     const resetPieces = () => {
         placedShipArray = [];

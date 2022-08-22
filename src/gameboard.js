@@ -5,6 +5,7 @@ const gameboard = () => {
     let placedShipArray = [];
     let missedShots = [];
     let landedShots = [];
+    // let occupiedSpots = [];
 
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
@@ -30,19 +31,55 @@ const gameboard = () => {
 
     const placeShipHorizontally = (ship, startingXCoord, startingYCoord) => {
 
-        if (placedShipArray.find(spot => spot.xCoord === Number(startingXCoord))) {
-            for (let i = 0; i < ship.shipLength; i++) {
-                if (placedShipArray.find(space => space.yCoord === Number(startingYCoord) + i)) {
-                    console.log("found");
-                    return "duplicate"
-                }
+        if (startingYCoord > (9 - ship.shipLength + 1)) {
+            console.log('too big')
+            return "outOfBounds"
+        }
+
+        let noMatch = 0;
+        for (let i = 0; i < ship.shipLength; i++) {
+            if (placedShipArray.find(spot => spot.xCoord === Number(startingXCoord) && spot.yCoord === Number(startingYCoord) + i)) {
+                console.log('found');
+                return "duplicate";
+            } else {
+                noMatch++;
             }
-        } else {
+        }
+
+        if (noMatch === ship.shipLength) {
             for (let i = 0; i < ship.shipLength; i++) {
                 placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord), yCoord: Number(startingYCoord) + i });
             }
             return placedShipArray;
         }
+        // if (placedShipArray.find(spot => spot.xCoord === Number(startingXCoord))) {
+        //     for (let i = 0; i < ship.shipLength; i++) {
+        //         if (placedShipArray.find(space => space.yCoord === Number(startingYCoord) + i)) {
+        //             console.log("found");
+        //             return "duplicate"
+        //         }
+        //     }
+        // } else {
+        //     for (let i = 0; i < ship.shipLength; i++) {
+        //         placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord), yCoord: Number(startingYCoord) + i });
+        //     }
+        //     return placedShipArray;
+        // }
+
+
+        // if (placedShipArray.find(spot => spot.xCoord === Number(startingXCoord))) {
+        //     for (let i = 0; i < ship.shipLength; i++) {
+        //         if (placedShipArray.find(space => space.yCoord === Number(startingYCoord) + i)) {
+        //             console.log("found");
+        //             return "duplicate"
+        //         }
+        //     }
+        // } else {
+        //     for (let i = 0; i < ship.shipLength; i++) {
+        //         placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord), yCoord: Number(startingYCoord) + i });
+        //     }
+        //     return placedShipArray;
+        // }
 
     }
 

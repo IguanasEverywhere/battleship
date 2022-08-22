@@ -29,8 +29,9 @@ const placeShipsPlayer = (currentShip) => {
             });
         });
         space.addEventListener('click', () => {
-            if (playerGameboard.placeShipHorizontally(currentShip, space.getAttribute('xCoord'), space.getAttribute('yCoord')) !== "duplicate") {
-                playerGameboard.placedShipArray.forEach(spot => {
+            let returnFromClick = playerGameboard.placeShipHorizontally(currentShip, space.getAttribute('xCoord'), space.getAttribute('yCoord'));
+            if (returnFromClick !=="outOfBounds" && returnFromClick!=="duplicate") {
+            playerGameboard.placedShipArray.forEach(spot => {
                     let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
                     if (occupiedSpace) {
                         occupiedSpace.spaceOccupied = true;
@@ -41,7 +42,7 @@ const placeShipsPlayer = (currentShip) => {
                 boardsContainer.remove();
                 renderBoard();
     
-            }
+             }
  
         });
 

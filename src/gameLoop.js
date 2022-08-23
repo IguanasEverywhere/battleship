@@ -6,13 +6,6 @@ import { random } from "lodash";
 
 
 const placeShipsPlayer = (currentShip) => {
-    // playerGameboard.placeShipHorizontally(battleShip, 0, 0);
-    // playerGameboard.placeShipHorizontally(destroyer, 0, 4);
-    // playerGameboard.placeShipVertically(cruiser, 0, 2);
-    // playerGameboard.placeShipHorizontally(destroyer, 5, 0);
-    // playerGameboard.placeShipHorizontally(carrier, 1, 5);
-    // playerGameboard.placeShipHorizontally(submarine, 7, 3);
-
     let playerBoardSpaces = document.querySelectorAll(".board-space");
     playerBoardSpaces.forEach(space => {
         space.addEventListener("mouseover", () => {
@@ -30,20 +23,20 @@ const placeShipsPlayer = (currentShip) => {
         });
         space.addEventListener('click', () => {
             let returnFromClick = playerGameboard.placeShipHorizontally(currentShip, space.getAttribute('xCoord'), space.getAttribute('yCoord'));
-            if (returnFromClick !=="outOfBounds" && returnFromClick!=="duplicate") {
-            playerGameboard.placedShipArray.forEach(spot => {
+            if (returnFromClick !== "outOfBounds" && returnFromClick !== "duplicate") {
+                playerGameboard.placedShipArray.forEach(spot => {
                     let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
                     if (occupiedSpace) {
                         occupiedSpace.spaceOccupied = true;
                     }
                 });
-    
+
                 let boardsContainer = document.getElementsByClassName('boards-container')[0];
                 boardsContainer.remove();
                 renderBoard();
-    
-             }
- 
+
+            }
+
         });
 
     });
@@ -62,48 +55,25 @@ const placeShipsPlayer = (currentShip) => {
         }
 
     }
-
-
-
-
-
-    // playerGameboard.placedShipArray.forEach(spot => {
-    //     let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
-    //     if (occupiedSpace) {
-    //         occupiedSpace.spaceOccupied = true;
-    //     }
-    // });
-
-    // let boardsContainer = document.getElementsByClassName('boards-container')[0];
-    // boardsContainer.remove();
-
-    // renderBoard();
 }
 
 const placeShipsComputer = () => {
 
     let arrayOfComputerShips = [battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer];
 
-    // const determineCoords = (ship) => {
-    //     let randomX = randomCoordGenerator();
-    //     let randomY = randomCoordGenerator();
+    const placeShip = (ship) => {
+        let randomX = randomCoordGenerator();
+        let randomY = randomCoordGenerator();
 
-    //     if (randomY <= (9 - ship.shipLength + 1)) {
-    //         if (!computerGameboard.placedShipArray.find(place => place.xCoord === randomX && (place.yCoord >= randomY) && (place.yCoord < randomY + (ship.shipLength - 1)))) {
-    //             console.log('placing ' + ship.shipName);
-    //             computerGameboard.placeShipHorizontally(ship, randomX, randomY);
-    //         }
-
-    //     } else {
-    //         console.log('called here with ' + ship.shipName);
-    //         determineCoords(ship);
-    //     }
-    // }
+        let returnFromPlacement = computerGameboard.placeShipHorizontally(ship, randomX, randomY);
+        if (returnFromPlacement === "outOfBounds" || returnFromPlacement === "duplicate") {
+            placeShip(ship);
+        }
+    }
 
     arrayOfComputerShips.forEach(ship => {
-        determineCoords(ship);
+        placeShip(ship);
     });
-
 
     computerGameboard.placedShipArray.forEach(spot => {
         let occupiedSpace = computerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);

@@ -5,7 +5,6 @@ const gameboard = () => {
     let placedShipArray = [];
     let missedShots = [];
     let landedShots = [];
-    // let occupiedSpots = [];
 
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
@@ -23,8 +22,9 @@ const gameboard = () => {
     }
 
     const placeShipVertically = (ship, startingXCoord, startingYCoord) => {
+        console.log("placed vertcally called")
         for (let i = 0; i < ship.shipLength; i++) {
-            placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord + i), yCoord: Number(startingYCoord) });
+            placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord) + i, yCoord: Number(startingYCoord) });
         }
         return placedShipArray;
     }

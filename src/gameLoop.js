@@ -6,10 +6,6 @@ import { random } from "lodash";
 
 
 const placeShipsPlayer = (currentShip, currentAxis) => {
-
-    console.log(currentAxis);
-    console.log(currentShip)
-
     let axisBtn = document.getElementById("axis-btn");
     axisBtn.addEventListener('click', () => {
         if (currentAxis === "vertical") {
@@ -112,7 +108,6 @@ const placeShipsPlayer = (currentShip, currentAxis) => {
 }
 
 const placeShipsComputer = () => {
-
     let arrayOfComputerShips = [battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer];
 
     const placeShip = (ship) => {
@@ -166,7 +161,6 @@ const randomDirectionGenerator = () => {
 }
 
 const controlGame = (turn) => {
-
     if (turn === "gameOver") {
         const gameOverModal = document.createElement("div");
         gameOverModal.classList.add("game-over");

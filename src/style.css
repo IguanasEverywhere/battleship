@@ -3,12 +3,6 @@ body {
   height: 100vh;
 }
 
-
-.missed-shot {
-  background-image: url("water.png");
-  background-size: cover;
-}
-
 .boards-container {
   display: flex;
   justify-content: space-around;
@@ -25,6 +19,14 @@ body {
 
 .board-space, .computer-board-space {
   border: 0.5px solid red;
+}
+
+.computer-board-space {
+  cursor: pointer;
+}
+
+.computer-board-space:hover {
+  background-color: #813407b3;
 }
 
 .occupied-space {
@@ -64,5 +66,24 @@ body {
 .ship-button {
   padding: 5px;
   margin: 10px;
+}
+
+#begin-game-btn {
+    border: none;
+    font-family: 'Orbitron';
+    font-weight: 500;
+    background-color: blue;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#begin-game-btn:hover {
+  background-color: #196be4;
+}
+
+#top-area {
+  display: flex;
+  justify-content: center;
 }
   

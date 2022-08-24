@@ -38,25 +38,28 @@ const renderBoard = () => {
     space.setAttribute('yCoord', coordObj.yCoord);
     space.setAttribute('isOccupied', coordObj.spaceOccupied);
     space.classList.add("computer-board-space");
-    if (space.getAttribute("isOccupied") === 'true') {
-      space.style.backgroundColor = "silver"
-    }
     computerBoard.appendChild(space);
   });
 
+  const topArea = document.getElementById("top-area");
+  topArea.style.visibility="hidden";
 
-  if (playerGameboard.placedShipArray.length === 17) {
+  if (playerGameboard.placedShipArray.length === 17 && computerGameboard.placedShipArray.length !== 17) {
+    topArea.style.visibility="visible";
     const beginGameBtn = document.createElement("button");
+    beginGameBtn.setAttribute("id", "begin-game-btn");
     beginGameBtn.textContent = "Begin Game";
-    boardsContainer.appendChild(beginGameBtn);
-  
+    topArea.appendChild(beginGameBtn);
+
     beginGameBtn.addEventListener('click', () => {
-      document.getElementById("axis-btn").style.visibility="hidden";
-      beginGameBtn.style.visibility="hidden";
       placeShipsComputer();
       controlGame("playerTurn");
     });
+
   }
+
+
+
 }
 
 const renderShipsToPlaceBtns = () => {
@@ -66,7 +69,7 @@ const renderShipsToPlaceBtns = () => {
   document.body.appendChild(shipsArea);
 
   const axisBtn = document.createElement("button");
-  axisBtn.setAttribute("id","axis-btn");
+  axisBtn.setAttribute("id", "axis-btn");
   axisBtn.textContent = "Change Axis";
   shipsArea.appendChild(axisBtn);
   axisBtn.style.visibility = "hidden";
@@ -79,12 +82,15 @@ const renderShipsToPlaceBtns = () => {
     shipBtn.textContent = ship.shipName;
     shipsArea.appendChild(shipBtn);
     shipBtn.addEventListener('click', () => {
+      // shipsArea.style.visibility = "hidden";
       placeShipsPlayer(ship, "horizontal");
       shipsArea.removeChild(shipBtn);
       axisBtn.style.visibility = "visible";
     });
   });
+
 }
+
 
 renderShipsToPlaceBtns();
 renderBoard();

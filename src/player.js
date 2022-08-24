@@ -1,21 +1,18 @@
 import { playerGameboard, computerGameboard } from "./gameboard";
 import { controlGame } from "./gameLoop";
-import Puppy from './puppy.jpeg';
-
-const pupImage = new Image();
-pupImage.src = Puppy;
 
 const playerTurn = () => {
+    let playerInstructions=document.getElementById("player-instructions");
+    playerInstructions.textContent="Your Turn! Fire At Enemy Gameboard By Clicking On A Space!";
+    
     let computerBoardSpaces = document.querySelectorAll(".computer-board-space");
     computerBoardSpaces.forEach(space => {
         space.addEventListener("click", () => {
             let occupied = (space.getAttribute("isoccupied"));
             if (occupied === "true") {
-                space.style.backgroundColor = "red";
+                space.style.backgroundColor = "#921414";
             } else {
-                // space.style.backgroundColor = "green"
-               space.classList.add("missed-shot");
-                
+                space.style.backgroundColor = "#40a1ef";
             }
             humanAttack(Number(space.getAttribute("xcoord")), Number(space.getAttribute("ycoord")));
         });
@@ -49,10 +46,10 @@ const computerTurn = () => {
         let spaceYCoord = Number(space.getAttribute("yCoord"));
         if (spaceXCoord === xCoord && spaceYCoord === yCoord) {
             if (space.getAttribute("isOccupied") === "true") {
-                space.style.backgroundColor = "red";
+                space.style.backgroundColor = "#921414";
             } else {
-                // space.style.backgroundColor = "green";
-                space.classList.add("missed-shot");
+                space.style.backgroundColor = "#40a1ef";
+                
                 
             }
         }

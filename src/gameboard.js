@@ -22,11 +22,29 @@ const gameboard = () => {
     }
 
     const placeShipVertically = (ship, startingXCoord, startingYCoord) => {
-        console.log("placed vertcally called")
-        for (let i = 0; i < ship.shipLength; i++) {
-            placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord) + i, yCoord: Number(startingYCoord) });
+
+        if (startingXCoord > (9 - ship.shipLength + 1)) {
+            console.log('too big')
+            return "outOfBounds"
         }
-        return placedShipArray;
+
+        let noMatch = 0;
+        for (let i = 0; i < ship.shipLength; i++) {
+            if (placedShipArray.find(spot => spot.xCoord === Number(startingXCoord) + i && spot.yCoord === Number(startingYCoord))) {
+                console.log('found');
+                return "duplicate";
+            } else {
+                noMatch++;
+            }
+        }
+
+        if (noMatch === ship.shipLength) {
+            for (let i = 0; i < ship.shipLength; i++) {
+                placedShipArray.push({ shipObj: ship, xCoord: Number(startingXCoord) + i, yCoord: Number(startingYCoord) });
+            }
+            return placedShipArray;
+        }
+
     }
 
     const placeShipHorizontally = (ship, startingXCoord, startingYCoord) => {

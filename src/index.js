@@ -52,6 +52,7 @@ const renderBoard = () => {
   
     beginGameBtn.addEventListener('click', () => {
       document.getElementById("axis-btn").style.visibility="hidden";
+      beginGameBtn.style.visibility="hidden";
       placeShipsComputer();
       controlGame("playerTurn");
     });
@@ -68,6 +69,7 @@ const renderShipsToPlaceBtns = () => {
   axisBtn.setAttribute("id","axis-btn");
   axisBtn.textContent = "Change Axis";
   shipsArea.appendChild(axisBtn);
+  axisBtn.style.visibility = "hidden";
 
   let playerShipsArray = [carrier, destroyer, submarine, cruiser, battleShip];
 
@@ -78,6 +80,7 @@ const renderShipsToPlaceBtns = () => {
     shipBtn.addEventListener('click', () => {
       placeShipsPlayer(ship, "horizontal");
       shipsArea.removeChild(shipBtn);
+      axisBtn.style.visibility = "visible";
     });
   });
 }

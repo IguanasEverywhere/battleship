@@ -44,13 +44,14 @@ const placeShipsPlayer = (currentShip, currentAxis) => {
             if (currentAxis === "horizontal") {
                 let returnFromClick = playerGameboard.placeShipHorizontally(currentShip, space.getAttribute('xCoord'), space.getAttribute('yCoord'));
                 if (returnFromClick !== "outOfBounds" && returnFromClick !== "duplicate") {
+                    axisBtn.style.visibility = "hidden";
                     playerGameboard.placedShipArray.forEach(spot => {
                         let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
                         if (occupiedSpace) {
                             occupiedSpace.spaceOccupied = true;
                         }
                     });
-    
+
                     let boardsContainer = document.getElementsByClassName('boards-container')[0];
                     boardsContainer.remove();
                     renderBoard();
@@ -59,13 +60,14 @@ const placeShipsPlayer = (currentShip, currentAxis) => {
             if (currentAxis === "vertical") {
                 let returnFromClick = playerGameboard.placeShipVertically(currentShip, space.getAttribute('xCoord'), space.getAttribute('yCoord'));
                 if (returnFromClick !== "outOfBounds" && returnFromClick !== "duplicate") {
+                    axisBtn.style.visibility = "hidden";
                     playerGameboard.placedShipArray.forEach(spot => {
                         let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
                         if (occupiedSpace) {
                             occupiedSpace.spaceOccupied = true;
                         }
-                    });
-    
+                    });  // can you condense these? repeated code
+
                     let boardsContainer = document.getElementsByClassName('boards-container')[0];
                     boardsContainer.remove();
                     renderBoard();
@@ -116,15 +118,26 @@ const placeShipsComputer = () => {
     const placeShip = (ship) => {
         let randomX = randomCoordGenerator();
         let randomY = randomCoordGenerator();
+        let shipDirection = randomDirectionGenerator();
+        console.log("ship direction " + shipDirection);
 
-        let returnFromPlacement = computerGameboard.placeShipHorizontally(ship, randomX, randomY);
-        if (returnFromPlacement === "outOfBounds" || returnFromPlacement === "duplicate") {
-            placeShip(ship);
+
+        if (shipDirection === 0) {
+            let returnFromPlacement = computerGameboard.placeShipHorizontally(ship, randomX, randomY);
+            if (returnFromPlacement === "outOfBounds" || returnFromPlacement === "duplicate") {
+                placeShip(ship);
+            }
+        } else if (shipDirection === 1) {
+            let returnFromPlacement = computerGameboard.placeShipVertically(ship, randomX, randomY);
+            if (returnFromPlacement === "outOfBounds" || returnFromPlacement === "duplicate") {
+                placeShip(ship);
+            }
         }
+
     }
 
     arrayOfComputerShips.forEach(ship => {
-        setTimeout(placeShip(ship), 1000); // settimeout isn't fully working yet, return to this
+        placeShip(ship);
     });
 
     computerGameboard.placedShipArray.forEach(spot => {
@@ -145,6 +158,11 @@ const placeShipsComputer = () => {
 const randomCoordGenerator = () => {
     let num = Math.floor(Math.random() * 10);
     return num;
+}
+
+const randomDirectionGenerator = () => {
+    let directionNum = Math.floor(Math.random() * 2);
+    return directionNum;
 }
 
 const controlGame = (turn) => {

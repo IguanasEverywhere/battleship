@@ -1,5 +1,15 @@
+body {
+  background-image: linear-gradient(to bottom right, #000000, #0001ff);
+  height: 100vh;
+}
+
+
+.missed-shot {
+  background-image: url("water.png");
+  background-size: cover;
+}
+
 .boards-container {
-  border: 2px solid green;
   display: flex;
   justify-content: space-around;
 }
@@ -14,7 +24,7 @@
 }
 
 .board-space, .computer-board-space {
-  border: 1px solid red;
+  border: 0.5px solid red;
 }
 
 .occupied-space {
@@ -29,10 +39,30 @@
 }
 
 .ships-area {
-  border: 2px solid yellow;
+  display: flex;
+  justify-content: center;
 }
 
 #axis-btn {
   background-color: yellow;
+}
+
+.title-text {
+  font-family: 'Rubik Moonrocks', cursive;
+  font-weight: 400;
+  font-size: 3rem;
+  text-align: center;
+  color: #e7e0e0;
+}
+
+#player-instructions {
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  color: silver;
+}
+
+.ship-button {
+  padding: 5px;
+  margin: 10px;
 }
   

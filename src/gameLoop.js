@@ -33,9 +33,9 @@ const placeShipsPlayer = (currentShip, currentAxis) => {
         space.addEventListener("mouseout", () => {
             playerBoardSpaces.forEach(spot => {
                 if (spot.getAttribute("isoccupied") === "true") {
-                    spot.style.backgroundColor = "gray";
+                    spot.style.backgroundColor = "silver";
                 } else {
-                    spot.style.backgroundColor = "white";
+                    spot.style.backgroundColor = "#0001ff00";
                 }
 
             });
@@ -87,7 +87,7 @@ const placeShipsPlayer = (currentShip, currentAxis) => {
                 let otherSpaceX = Number(otherSpace.getAttribute("xCoord"));
                 let otherSpaceY = Number(otherSpace.getAttribute("yCoord"));
                 if (otherSpaceX === currentSpaceX && otherSpaceY <= currentSpaceY + (ship.shipLength - 1) && (otherSpaceY) >= currentSpaceY) {
-                    otherSpace.style.backgroundColor = "gray";
+                    otherSpace.style.backgroundColor = "#808080ad";
                 } // somehow put this with the event listener for click, too
             });
         }
@@ -103,7 +103,7 @@ const placeShipsPlayer = (currentShip, currentAxis) => {
                 let otherSpaceX = Number(otherSpace.getAttribute("xCoord"));
                 let otherSpaceY = Number(otherSpace.getAttribute("yCoord"));
                 if (otherSpaceY === currentSpaceY && otherSpaceX <= currentSpaceX + (ship.shipLength - 1) && (otherSpaceX) >= currentSpaceX) {
-                    otherSpace.style.backgroundColor = "gray";
+                    otherSpace.style.backgroundColor = "#808080ad";
                 } // somehow put this with the event listener for click, too
             });
         }

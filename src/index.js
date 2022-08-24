@@ -27,7 +27,7 @@ const renderBoard = () => {
     space.setAttribute('isOccupied', coordObj.spaceOccupied);
     space.classList.add("board-space");
     if (space.getAttribute("isOccupied") === 'true') {
-      space.style.backgroundColor = "gray"
+      space.style.backgroundColor = "silver"
     }
     playerBoard.appendChild(space);
   });
@@ -39,7 +39,7 @@ const renderBoard = () => {
     space.setAttribute('isOccupied', coordObj.spaceOccupied);
     space.classList.add("computer-board-space");
     if (space.getAttribute("isOccupied") === 'true') {
-      space.style.backgroundColor = "gray"
+      space.style.backgroundColor = "silver"
     }
     computerBoard.appendChild(space);
   });
@@ -75,6 +75,7 @@ const renderShipsToPlaceBtns = () => {
 
   playerShipsArray.forEach(ship => {
     let shipBtn = document.createElement("button");
+    shipBtn.classList.add("ship-button");
     shipBtn.textContent = ship.shipName;
     shipsArea.appendChild(shipBtn);
     shipBtn.addEventListener('click', () => {

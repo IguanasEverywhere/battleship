@@ -1,5 +1,9 @@
 import { playerGameboard, computerGameboard } from "./gameboard";
 import { controlGame } from "./gameLoop";
+import Puppy from './puppy.jpeg';
+
+const pupImage = new Image();
+pupImage.src = Puppy;
 
 const playerTurn = () => {
     let computerBoardSpaces = document.querySelectorAll(".computer-board-space");
@@ -9,7 +13,9 @@ const playerTurn = () => {
             if (occupied === "true") {
                 space.style.backgroundColor = "red";
             } else {
-                space.style.backgroundColor = "green"
+                // space.style.backgroundColor = "green"
+               space.classList.add("missed-shot");
+                
             }
             humanAttack(Number(space.getAttribute("xcoord")), Number(space.getAttribute("ycoord")));
         });
@@ -45,7 +51,9 @@ const computerTurn = () => {
             if (space.getAttribute("isOccupied") === "true") {
                 space.style.backgroundColor = "red";
             } else {
-                space.style.backgroundColor = "green";
+                // space.style.backgroundColor = "green";
+                space.classList.add("missed-shot");
+                
             }
         }
     });

@@ -2,9 +2,6 @@ import { playerGameboard, computerGameboard } from "./gameboard";
 import { controlGame } from "./gameLoop";
 
 const playerTurn = () => {
-    let playerInstructions=document.getElementById("player-instructions");
-    playerInstructions.textContent="Your Turn! Fire At Enemy Gameboard By Clicking On A Space!";
-    
     let computerBoardSpaces = document.querySelectorAll(".computer-board-space");
     computerBoardSpaces.forEach(space => {
         space.addEventListener("click", () => {

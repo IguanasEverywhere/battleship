@@ -173,12 +173,16 @@ const controlGame = (turn) => {
 
     }
     if (turn === "playerTurn") {
+        let playerInstructions=document.getElementById("player-instructions");
+        playerInstructions.textContent="Your Turn! Fire At Enemy Gameboard By Clicking On A Space!";
         playerTurn();
     }
     if (turn === "computerTurn") {
         let computerBoard = document.getElementsByClassName('player-board')[1];
         let newBoard = computerBoard.cloneNode(true);
         computerBoard.replaceWith(newBoard);
+        let playerInstructions=document.getElementById("player-instructions");
+        playerInstructions.textContent="Enemy Firing...";
         setTimeout(() => {
             computerTurn();
         }, 1500)

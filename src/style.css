@@ -46,7 +46,16 @@ body {
 }
 
 #axis-btn {
-  background-color: yellow;
+  background-color: black;
+  color: silver;
+  padding: 10px;
+  font-family: 'Orbitron';
+  cursor: pointer;
+  border-style: double;
+}
+
+#axis-btn:hover {
+  background-color: #196be4;
 }
 
 .title-text {

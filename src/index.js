@@ -42,16 +42,18 @@ const renderBoard = () => {
   });
 
   const topArea = document.getElementById("top-area");
-  topArea.style.visibility="hidden";
 
   if (playerGameboard.placedShipArray.length === 17 && computerGameboard.placedShipArray.length !== 17) {
-    topArea.style.visibility="visible";
+    // topArea.style.visibility="visible";
+    let axisBtn = document.getElementById("axis-btn");
+    topArea.removeChild(axisBtn);
     const beginGameBtn = document.createElement("button");
     beginGameBtn.setAttribute("id", "begin-game-btn");
     beginGameBtn.textContent = "Begin Game";
     topArea.appendChild(beginGameBtn);
 
     beginGameBtn.addEventListener('click', () => {
+      topArea.style.visibility="hidden";
       placeShipsComputer();
       controlGame("playerTurn");
     });
@@ -68,10 +70,12 @@ const renderShipsToPlaceBtns = () => {
   shipsArea.classList.add("ships-area");
   document.body.appendChild(shipsArea);
 
+  const topArea = document.getElementById("top-area");
+
   const axisBtn = document.createElement("button");
   axisBtn.setAttribute("id", "axis-btn");
-  axisBtn.textContent = "Change Axis";
-  shipsArea.appendChild(axisBtn);
+  axisBtn.textContent = "Rotate Ship Axis";
+  topArea.appendChild(axisBtn);
   axisBtn.style.visibility = "hidden";
 
   let playerShipsArray = [carrier, destroyer, submarine, cruiser, battleShip];

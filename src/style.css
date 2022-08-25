@@ -66,6 +66,16 @@ body {
 .ship-button {
   padding: 5px;
   margin: 10px;
+  font-family: 'Orbitron';
+  font-weight: 700;
+  color: #4b4a4a;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.ship-button:hover {
+  background-color: #196be4;
 }
 
 #begin-game-btn {

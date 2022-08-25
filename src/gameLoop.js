@@ -7,6 +7,7 @@ import { random } from "lodash";
 
 const placeShipsPlayer = (currentShip, currentAxis) => {
     let axisBtn = document.getElementById("axis-btn");
+    let shipsArea = document.getElementsByClassName("ships-area")[0];
     axisBtn.addEventListener('click', () => {
         if (currentAxis === "vertical") {
             currentAxis = "horizontal";
@@ -41,6 +42,7 @@ const placeShipsPlayer = (currentShip, currentAxis) => {
                 let returnFromClick = playerGameboard.placeShipHorizontally(currentShip, space.getAttribute('xCoord'), space.getAttribute('yCoord'));
                 if (returnFromClick !== "outOfBounds" && returnFromClick !== "duplicate") {
                     axisBtn.style.visibility = "hidden";
+                    shipsArea.style.visibility = "visible";
                     playerGameboard.placedShipArray.forEach(spot => {
                         let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
                         if (occupiedSpace) {
@@ -57,6 +59,7 @@ const placeShipsPlayer = (currentShip, currentAxis) => {
                 let returnFromClick = playerGameboard.placeShipVertically(currentShip, space.getAttribute('xCoord'), space.getAttribute('yCoord'));
                 if (returnFromClick !== "outOfBounds" && returnFromClick !== "duplicate") {
                     axisBtn.style.visibility = "hidden";
+                    shipsArea.style.visibility = "visible";
                     playerGameboard.placedShipArray.forEach(spot => {
                         let occupiedSpace = playerGameboard.coordinatesArr.find(place => place.xCoord === spot.xCoord && place.yCoord === spot.yCoord);
                         if (occupiedSpace) {

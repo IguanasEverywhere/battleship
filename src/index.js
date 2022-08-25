@@ -79,10 +79,10 @@ const renderShipsToPlaceBtns = () => {
   playerShipsArray.forEach(ship => {
     let shipBtn = document.createElement("button");
     shipBtn.classList.add("ship-button");
-    shipBtn.textContent = ship.shipName;
+    shipBtn.textContent = (ship.shipName + " (" + ship.shipLength + ")").toUpperCase();
     shipsArea.appendChild(shipBtn);
     shipBtn.addEventListener('click', () => {
-      // shipsArea.style.visibility = "hidden";
+      shipsArea.style.visibility = "hidden";
       placeShipsPlayer(ship, "horizontal");
       shipsArea.removeChild(shipBtn);
       axisBtn.style.visibility = "visible";

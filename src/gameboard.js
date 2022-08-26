@@ -12,7 +12,7 @@ const gameboard = () => {
                 xCoord: i,
                 yCoord: j,
                 spaceOccupied: false,
-                
+
             };
             coordinatesArr.push(coordObj);
         }
@@ -22,17 +22,16 @@ const gameboard = () => {
         return coordinatesArr;
     }
 
+
     const placeShipVertically = (ship, startingXCoord, startingYCoord) => {
 
         if (startingXCoord > (9 - ship.shipLength + 1)) {
-            console.log('too big')
             return "outOfBounds"
         }
 
         let noMatch = 0;
         for (let i = 0; i < ship.shipLength; i++) {
             if (placedShipArray.find(spot => spot.xCoord === Number(startingXCoord) + i && spot.yCoord === Number(startingYCoord))) {
-                console.log('found');
                 return "duplicate";
             } else {
                 noMatch++;
@@ -51,14 +50,12 @@ const gameboard = () => {
     const placeShipHorizontally = (ship, startingXCoord, startingYCoord) => {
 
         if (startingYCoord > (9 - ship.shipLength + 1)) {
-            console.log('too big')
             return "outOfBounds"
         }
 
         let noMatch = 0;
         for (let i = 0; i < ship.shipLength; i++) {
             if (placedShipArray.find(spot => spot.xCoord === Number(startingXCoord) && spot.yCoord === Number(startingYCoord) + i)) {
-                console.log('found');
                 return "duplicate";
             } else {
                 noMatch++;

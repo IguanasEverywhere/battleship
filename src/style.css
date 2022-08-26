@@ -40,6 +40,7 @@ body {
   width: 50%;
   font-size: 2.5rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   box-shadow: 5px gray;
   box-shadow: 0 0 50px blue;
@@ -119,4 +120,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#play-again-btn {
+  font-family: 'Rubik Moonrocks';
+}
+
+#play-again-btn:hover {
+  background-color: #196be4;
 }

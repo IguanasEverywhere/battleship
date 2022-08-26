@@ -1,14 +1,16 @@
 import { computerTurn, playerTurn } from "./player";
 import { playerGameboard, computerGameboard } from "./gameboard";
 import { renderBoard } from ".";
-import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer } from "./shipFactory";
-import { random } from "lodash";
-
+import { battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer } from "./shipFactory";
+import beep from "/src/beep.wav";
+import clang from "/src/clang.mp3";
 
 const placeShipsPlayer = (currentShip, currentAxis) => {
     let axisBtn = document.getElementById("axis-btn");
     let shipsArea = document.getElementsByClassName("ships-area")[0];
     axisBtn.addEventListener('click', () => {
+        let beepSound = new Audio(beep);
+        beepSound.play();
         if (currentAxis === "vertical") {
             currentAxis = "horizontal";
 
@@ -38,6 +40,8 @@ const placeShipsPlayer = (currentShip, currentAxis) => {
             });
         });
         space.addEventListener('click', () => {
+            let clangSound = new Audio(clang);
+            clangSound.play();
             if (currentAxis === "horizontal") {
                 let returnFromClick = playerGameboard.placeShipHorizontally(currentShip, space.getAttribute('xCoord'), space.getAttribute('yCoord'));
                 if (returnFromClick !== "outOfBounds" && returnFromClick !== "duplicate") {
@@ -117,8 +121,6 @@ const placeShipsComputer = () => {
         let randomX = randomCoordGenerator();
         let randomY = randomCoordGenerator();
         let shipDirection = randomDirectionGenerator();
-        console.log("ship direction " + shipDirection);
-
 
         if (shipDirection === 0) {
             let returnFromPlacement = computerGameboard.placeShipHorizontally(ship, randomX, randomY);
@@ -145,8 +147,6 @@ const placeShipsComputer = () => {
         }
     });
 
-    console.log(computerGameboard.placedShipArray);
-
     let boardsContainer = document.getElementsByClassName('boards-container')[0];
     boardsContainer.remove();
 
@@ -168,9 +168,25 @@ const controlGame = (turn) => {
     if (turn === "gameOver") {
         const gameOverModal = document.createElement("div");
         gameOverModal.classList.add("game-over");
-        gameOverModal.textContent = "GAME OVER";
+        if (computerGameboard.allShipsSunk()) {
+            gameOverModal.textContent = "YOU HAVE BEEN VICTORIOUS";
+        } else if (playerGameboard.allShipsSunk()) {
+            gameOverModal.textContent = "YOU HAVE BEEN DEFEATED";
+        }
+        
         const boardsContainer = document.getElementsByClassName("boards-container")[0];
         boardsContainer.appendChild(gameOverModal);
+
+        const playAgainBtn = document.createElement("button");
+        playAgainBtn.setAttribute("id", "play-again-btn");
+        playAgainBtn.textContent = "Play Again?";
+        gameOverModal.appendChild(playAgainBtn);
+
+        playAgainBtn.addEventListener('click', () => {
+            location.reload(); // temporary solution, there are probably better ways to do this
+        });
+
+
 
     }
     if (turn === "playerTurn") {

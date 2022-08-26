@@ -2,6 +2,7 @@ import { playerGameboard, computerGameboard } from "./gameboard";
 import { controlGame } from "./gameLoop";
 import splash from '/src/splash.wav';
 import explosion from '/src/explosion.wav';
+import crash from '/src/crash.wav';
 
 
 
@@ -27,7 +28,10 @@ const playerTurn = () => {
             let hitShip = (humanAttack(Number(space.getAttribute("xcoord")), Number(space.getAttribute("ycoord"))));
 
             if (hitShip !== null && hitShip.shipName && hitShip.isSunk()) {
-                alert(hitShip.shipName + " is sunk");
+                let playerInstructions = document.getElementById("player-instructions");
+                playerInstructions.textContent = "You sunk the enemy's " + hitShip.shipName.toUpperCase();
+                let sinkSound = new Audio(crash);
+                sinkSound.play();
                 let sunkShipSpots = (computerGameboard.placedShipArray.filter(spot => spot.shipObj.shipName === hitShip.shipName));
 
                 sunkShipSpots.forEach(square => {
@@ -77,7 +81,10 @@ const computerTurn = () => {
     let yCoord = randomCoordGenerator();
     let hitShip = computerAttack(xCoord, yCoord);
     if (hitShip !== null && hitShip.shipName && hitShip.isSunk()) {
-        alert(hitShip.shipName + " is sunk");
+        let playerInstructions = document.getElementById("player-instructions");
+        playerInstructions.textContent = "The enemy sunk your " + hitShip.shipName.toUpperCase();
+        let sinkSound = new Audio(crash);
+        sinkSound.play();
         let sunkShipSpots = (playerGameboard.placedShipArray.filter(spot => spot.shipObj.shipName === hitShip.shipName));
 
         sunkShipSpots.forEach(square => {
@@ -87,7 +94,6 @@ const computerTurn = () => {
 
     playerBoardSpaces.forEach(space => {
         if (space.style.backgroundColor !== "rgb(146, 20, 20)" && space.style.backgroundColor !== "rgb(64, 161, 239)" && space.style.backgroundColor !== "rgba(255, 255, 0, 0.89)") {
-
             let spaceXCoord = Number(space.getAttribute("xCoord"));
             let spaceYCoord = Number(space.getAttribute("yCoord"));
             if (spaceXCoord === xCoord && spaceYCoord === yCoord) {

@@ -37,16 +37,12 @@ const renderBoard = () => {
     space.setAttribute('yCoord', coordObj.yCoord);
     space.setAttribute('isOccupied', coordObj.spaceOccupied);
     space.classList.add("computer-board-space");
-    if (space.getAttribute("isOccupied") === 'true') {
-      space.style.backgroundColor = "silver"
-    } // for testing visually only
     computerBoard.appendChild(space);
   });
 
   const topArea = document.getElementById("top-area");
 
   if (playerGameboard.placedShipArray.length === 17 && computerGameboard.placedShipArray.length !== 17) {
-    // topArea.style.visibility="visible";
     let axisBtn = document.getElementById("axis-btn");
     topArea.removeChild(axisBtn);
     const beginGameBtn = document.createElement("button");
@@ -100,4 +96,4 @@ renderBoard();
 
 
 
-export { renderBoard }
+export { renderBoard, renderShipsToPlaceBtns }

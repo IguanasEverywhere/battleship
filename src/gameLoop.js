@@ -164,6 +164,7 @@ const randomDirectionGenerator = () => {
 }
 
 const controlGame = (turn) => {
+
     if (turn === "gameOver") {
         const gameOverModal = document.createElement("div");
         gameOverModal.classList.add("game-over");
@@ -185,7 +186,7 @@ const controlGame = (turn) => {
         playerInstructions.textContent="Enemy Firing...";
         setTimeout(() => {
             computerTurn();
-        }, 1500)
+        }, 2000)
     }
 }
 

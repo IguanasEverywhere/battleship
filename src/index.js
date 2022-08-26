@@ -7,7 +7,6 @@ import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer,
 
 
 const renderBoard = () => {
-
   const boardsContainer = document.createElement("div");
   boardsContainer.classList.add("boards-container");
   document.body.appendChild(boardsContainer);
@@ -38,6 +37,9 @@ const renderBoard = () => {
     space.setAttribute('yCoord', coordObj.yCoord);
     space.setAttribute('isOccupied', coordObj.spaceOccupied);
     space.classList.add("computer-board-space");
+    if (space.getAttribute("isOccupied") === 'true') {
+      space.style.backgroundColor = "silver"
+    } // for testing visually only
     computerBoard.appendChild(space);
   });
 
@@ -53,7 +55,7 @@ const renderBoard = () => {
     topArea.appendChild(beginGameBtn);
 
     beginGameBtn.addEventListener('click', () => {
-      topArea.style.visibility="hidden";
+      topArea.style.visibility = "hidden";
       placeShipsComputer();
       controlGame("playerTurn");
     });

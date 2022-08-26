@@ -11,7 +11,8 @@ const gameboard = () => {
             let coordObj = {
                 xCoord: i,
                 yCoord: j,
-                spaceOccupied: false
+                spaceOccupied: false,
+                spaceSunk: false
             };
             coordinatesArr.push(coordObj);
         }
@@ -92,6 +93,7 @@ const gameboard = () => {
             missedShots.push({ x: x, y: y });
             return missedShots;
         }
+
     }
 
     const allShipsSunk = () => {

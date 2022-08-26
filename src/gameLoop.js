@@ -168,7 +168,7 @@ const controlGame = (turn) => {
     if (turn === "gameOver") {
         const gameOverModal = document.createElement("div");
         gameOverModal.classList.add("game-over");
-        gameOverModal.textContent = "Game Over!!";
+        gameOverModal.textContent = "GAME OVER";
         const boardsContainer = document.getElementsByClassName("boards-container")[0];
         boardsContainer.appendChild(gameOverModal);
 

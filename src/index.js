@@ -61,9 +61,6 @@ const renderBoard = () => {
     });
 
   }
-
-
-
 }
 
 const renderShipsToPlaceBtns = () => {

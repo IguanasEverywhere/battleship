@@ -12,7 +12,7 @@ const gameboard = () => {
                 xCoord: i,
                 yCoord: j,
                 spaceOccupied: false,
-                spaceSunk: false
+                
             };
             coordinatesArr.push(coordObj);
         }

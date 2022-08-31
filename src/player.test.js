@@ -1,6 +1,6 @@
-import { humanAttack, computerAttack } from "./player";
+import { humanAttack } from "./player";
 import { cruiserComputer } from "./shipFactory";
-import { computerGameboard, playerGameBoard } from "./gameboard";
+import { computerGameboard } from "./gameboard";
 
 test.only('human player attacking 55 returns missed shots array', () => {
     expect(humanAttack(5, 5)).toEqual([{ x: 5, y: 5 }]);

@@ -1,10 +1,6 @@
 import './style.css';
 import { playerGameboard, computerGameboard } from './gameboard';
-import { placeShipsPlayer, placeShipsComputer, setUpBoard } from './gameLoop';
 import { controlGame } from './gameLoop';
-import { battleShip, cruiser, destroyer, submarine, carrier, battleShipComputer, cruiserComputer, destroyerComputer, carrierComputer, submarineComputer } from "./shipFactory";
-
-
 
 const renderBoard = () => {
   const boardsContainer = document.createElement("div");
@@ -40,60 +36,15 @@ const renderBoard = () => {
     computerBoard.appendChild(space);
   });
 
-  const topArea = document.getElementById("top-area");
-
   if (playerGameboard.placedShipArray.length === 17 && computerGameboard.placedShipArray.length !== 17) {
-    let axisBtn = document.getElementById("axis-btn");
-    topArea.removeChild(axisBtn);
-    const beginGameBtn = document.createElement("button");
-    beginGameBtn.setAttribute("id", "begin-game-btn");
-    beginGameBtn.textContent = "Begin Game";
-    topArea.appendChild(beginGameBtn);
-
-    beginGameBtn.addEventListener('click', () => {
-      topArea.style.visibility = "hidden";
-      placeShipsComputer();
-      controlGame("playerTurn");
-    });
-
+    controlGame("finishSetup");
   }
 }
 
-const renderShipsToPlaceBtns = () => {
 
-  const shipsArea = document.createElement("div");
-  shipsArea.classList.add("ships-area");
-  document.body.appendChild(shipsArea);
-
-  const topArea = document.getElementById("top-area");
-
-  const axisBtn = document.createElement("button");
-  axisBtn.setAttribute("id", "axis-btn");
-  axisBtn.textContent = "Rotate Ship Axis";
-  topArea.appendChild(axisBtn);
-  axisBtn.style.visibility = "hidden";
-
-  let playerShipsArray = [carrier, destroyer, submarine, cruiser, battleShip];
-
-  playerShipsArray.forEach(ship => {
-    let shipBtn = document.createElement("button");
-    shipBtn.classList.add("ship-button");
-    shipBtn.textContent = (ship.shipName + " (" + ship.shipLength + ")").toUpperCase();
-    shipsArea.appendChild(shipBtn);
-    shipBtn.addEventListener('click', () => {
-      shipsArea.style.visibility = "hidden";
-      placeShipsPlayer(ship, "horizontal");
-      shipsArea.removeChild(shipBtn);
-      axisBtn.style.visibility = "visible";
-    });
-  });
-
-}
-
-
-renderShipsToPlaceBtns();
 renderBoard();
+controlGame("beginSetup");
 
 
 
-export { renderBoard, renderShipsToPlaceBtns }
+export { renderBoard }

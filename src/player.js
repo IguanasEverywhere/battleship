@@ -1,59 +1,21 @@
 import { playerGameboard, computerGameboard } from "./gameboard";
 import { controlGame } from "./gameLoop";
-import splash from '/src/splash.wav';
-import explosion from '/src/explosion.wav';
-import crash from '/src/crash.wav';
-
-
+import { updateComputerBoardDom, updateBoardDomAfterSink, updatePlayerBoardDomAfterSink, updatePlayerBoardDom } from "./updateBoardDom";
 
 const playerTurn = () => {
     let computerBoardSpaces = document.querySelectorAll(".computer-board-space");
 
     computerBoardSpaces.forEach(space => {
         space.addEventListener("click", () => {
-            // checking if space has already been clicked
-            if (space.style.backgroundColor !== "rgb(146, 20, 20)" && space.style.backgroundColor !== "rgb(64, 161, 239)" && space.style.backgroundColor !== "rgba(255, 255, 0, 0.89)") {
-                let occupied = (space.getAttribute("isoccupied"));
-                if (occupied === "true") {
-                    let explosionSound = new Audio(explosion);
-                    explosionSound.play();
-                    space.classList.add("mark-hit");
-                    space.style.backgroundColor = "#921414";
-                } else {
-                    let splashSound = new Audio(splash);
-                    splashSound.play();
-                    space.style.backgroundColor = "#40a1ef";
-                }
-            }
+            updateComputerBoardDom(space);
             let hitShip = (humanAttack(Number(space.getAttribute("xcoord")), Number(space.getAttribute("ycoord"))));
 
             if (hitShip !== null && hitShip.shipName && hitShip.isSunk()) {
-                let playerInstructions = document.getElementById("player-instructions");
-                playerInstructions.textContent = "You sunk the enemy's " + hitShip.shipName.toUpperCase();
-                let sinkSound = new Audio(crash);
-                sinkSound.play();
-                let sunkShipSpots = (computerGameboard.placedShipArray.filter(spot => spot.shipObj.shipName === hitShip.shipName));
-
-                sunkShipSpots.forEach(square => {
-                    markSunkShips(square.xCoord, square.yCoord);
-                });
+                let playerInstructionsContent = "You sunk the enemy's " + hitShip.shipName.toUpperCase();
+                updateBoardDomAfterSink(playerInstructionsContent, hitShip);
             }
         }, { once: true });
 
-    });
-}
-
-
-
-
-const markSunkShips = (x, y) => {
-    let computerBoardSpaces = document.querySelectorAll(".computer-board-space");
-    computerBoardSpaces.forEach(space => {
-        if (space.getAttribute("xcoord") === String(x) && space.getAttribute("ycoord") === String(y)) {
-            space.classList.add("sunk-ship");
-            space.style.backgroundColor = "#ffff00e3";
-            space.textContent = "*";
-        }
     });
 }
 
@@ -81,45 +43,13 @@ const computerTurn = () => {
     let yCoord = randomCoordGenerator();
     let hitShip = computerAttack(xCoord, yCoord);
     if (hitShip !== null && hitShip.shipName && hitShip.isSunk()) {
-        let playerInstructions = document.getElementById("player-instructions");
-        playerInstructions.textContent = "The enemy sunk your " + hitShip.shipName.toUpperCase();
-        let sinkSound = new Audio(crash);
-        sinkSound.play();
-        let sunkShipSpots = (playerGameboard.placedShipArray.filter(spot => spot.shipObj.shipName === hitShip.shipName));
 
-        sunkShipSpots.forEach(square => {
-            markSunkShipsPlayerBoard(square.xCoord, square.yCoord);
-        });
+        let playerInstructionsContent = "The enemy sunk your " + hitShip.shipName.toUpperCase();
+        updatePlayerBoardDomAfterSink(playerInstructionsContent, hitShip);
+
     }
 
-    playerBoardSpaces.forEach(space => {
-        if (space.style.backgroundColor !== "rgb(146, 20, 20)" && space.style.backgroundColor !== "rgb(64, 161, 239)" && space.style.backgroundColor !== "rgba(255, 255, 0, 0.89)") {
-            let spaceXCoord = Number(space.getAttribute("xCoord"));
-            let spaceYCoord = Number(space.getAttribute("yCoord"));
-            if (spaceXCoord === xCoord && spaceYCoord === yCoord) {
-                if (space.getAttribute("isOccupied") === "true") {
-                    let explosionSound = new Audio(explosion);
-                    explosionSound.play();
-                    space.style.backgroundColor = "#921414";
-                } else {
-                    let splashSound = new Audio(splash);
-                    splashSound.play();
-                    space.style.backgroundColor = "#40a1ef";
-                }
-            }
-        }
-    });
-}
-
-const markSunkShipsPlayerBoard = (x, y) => {
-    let playerBoardSpaces = document.querySelectorAll(".board-space");
-    playerBoardSpaces.forEach(space => {
-        if (space.getAttribute("xcoord") === String(x) && space.getAttribute("ycoord") === String(y)) {
-            space.classList.add("sunk-ship");
-            space.style.backgroundColor = "#ffff00e3";
-            space.textContent = "*";
-        }
-    });
+    updatePlayerBoardDom(playerBoardSpaces, xCoord, yCoord);
 }
 
 
@@ -146,3 +76,4 @@ const randomCoordGenerator = () => {
 }
 
 export { humanAttack, computerAttack, randomCoordGenerator, playerTurn, computerTurn }
+

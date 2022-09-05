@@ -33,6 +33,9 @@ const renderBoard = () => {
     space.setAttribute('yCoord', coordObj.yCoord);
     space.setAttribute('isOccupied', coordObj.spaceOccupied);
     space.classList.add("computer-board-space");
+    if (space.getAttribute("isOccupied") === 'true') {
+      space.style.backgroundColor = "silver"
+    }
     computerBoard.appendChild(space);
   });
 

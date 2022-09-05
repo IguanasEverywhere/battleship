@@ -1,3 +1,4 @@
+import { last } from "lodash";
 import { playerGameboard, computerGameboard } from "./gameboard";
 import { controlGame } from "./gameLoop";
 import { updateComputerBoardDom, updateBoardDomAfterSink, updatePlayerBoardDomAfterSink, updatePlayerBoardDom } from "./updateBoardDom";
@@ -38,15 +39,91 @@ const humanAttack = (xCoord, yCoord) => {
 
 
 const computerTurn = () => {
+
     let playerBoardSpaces = document.querySelectorAll(".board-space");
-    let xCoord = randomCoordGenerator();
-    let yCoord = randomCoordGenerator();
+
+    let xCoord;
+    let yCoord;
+
+    let prevAttackedSpaces = [];
+    let anchor = playerGameboard.underAttackSpaces[playerGameboard.underAttackSpaces.length - 1];
+  
+    playerGameboard.landedShots.forEach(shot => prevAttackedSpaces.push(shot));
+    playerGameboard.missedShots.forEach(shot => prevAttackedSpaces.push(shot));
+
+    const attackDown = (anchor) => {
+        if (prevAttackedSpaces.find(space => space.x === anchor.x+1 && space.y === anchor.y)) {
+            anchor = playerGameboard.underAttackSpaces[0];
+        }
+      
+        xCoord = anchor.x + 1;
+        yCoord = anchor.y;
+    }
+
+    const attackUp = () => {
+
+        anchor = playerGameboard.underAttackSpaces[playerGameboard.underAttackSpaces.length - 1];
+        if (!prevAttackedSpaces.find(space => space.x === anchor.x-1 && space.y == anchor.y)) {
+            xCoord = anchor.x - 1;
+            yCoord = anchor.y;
+        } else {
+            attackDown(anchor);
+        }
+
+
+        
+    }
+
+    const attackRight = (anchor) => {
+        xCoord = anchor.x;
+        yCoord = anchor.y + 1;
+    }
+
+    const attackLeft = (anchor) => {
+
+        if (!prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y - 1)) {
+            xCoord = anchor.x;
+            yCoord = anchor.y - 1;
+        } else {
+            attackUp();
+        }
+
+    }
+
+    if (playerGameboard.underAttackSpaces.length > 0) {
+        if (!prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y + 1)) {
+            attackRight(anchor);
+
+        } else {
+            if (prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y - 1)) {
+                anchor = playerGameboard.underAttackSpaces[0];
+            }
+
+            attackLeft(anchor);
+
+        }
+
+
+
+    } else {
+        xCoord = randomCoordGenerator();
+        yCoord = randomCoordGenerator();
+    }
+
+
     let hitShip = computerAttack(xCoord, yCoord);
+
+    if (hitShip !== null && hitShip.shipName && !hitShip.isSunk()) {
+
+        playerGameboard.mostRecentHit = ({ x: xCoord, y: yCoord });
+        playerGameboard.underAttackSpaces.push(playerGameboard.mostRecentHit);
+    }
+
     if (hitShip !== null && hitShip.shipName && hitShip.isSunk()) {
-
         let playerInstructionsContent = "The enemy sunk your " + hitShip.shipName.toUpperCase();
+        playerGameboard.mostRecentHit = null;
+        playerGameboard.underAttackSpaces = [];
         updatePlayerBoardDomAfterSink(playerInstructionsContent, hitShip);
-
     }
 
     updatePlayerBoardDom(playerBoardSpaces, xCoord, yCoord);

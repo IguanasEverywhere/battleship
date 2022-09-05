@@ -5,6 +5,9 @@ const gameboard = () => {
     let placedShipArray = [];
     let missedShots = [];
     let landedShots = [];
+    let mostRecentHit;
+    let adjacentSpaces = [];
+    let underAttackSpaces = [];
 
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
@@ -90,12 +93,12 @@ const gameboard = () => {
             missedShots.push({ x: x, y: y });
             return missedShots;
         }
-
     }
 
     const allShipsSunk = () => {
         if (carrier.isSunk() && cruiser.isSunk() && battleShip.isSunk() && submarine.isSunk() && destroyer.isSunk()) {
             return true;
+
         } else if (carrierComputer.isSunk() && cruiserComputer.isSunk() && battleShipComputer.isSunk() && submarineComputer.isSunk() && destroyerComputer.isSunk()) {
             return true;
         } else {
@@ -103,7 +106,9 @@ const gameboard = () => {
         }
     }
 
-    return { coordinatesArr, placedShipArray, getCoordinatesArr, placeShipHorizontally, placeShipVertically, resetPieces, receiveAttack, clearMissedShots, allShipsSunk, missedShots, landedShots };
+
+
+    return { underAttackSpaces, adjacentSpaces, mostRecentHit, coordinatesArr, placedShipArray, getCoordinatesArr, placeShipHorizontally, placeShipVertically, resetPieces, receiveAttack, clearMissedShots, allShipsSunk, missedShots, landedShots };
 }
 
 const playerGameboard = gameboard();

@@ -57,9 +57,9 @@ const controlGame = (turn) => {
             const gameOverModal = document.createElement("div");
             gameOverModal.classList.add("game-over");
             if (computerGameboard.allShipsSunk()) {
-                gameOverModal.textContent = "YOU HAVE BEEN VICTORIOUS";
+                gameOverModal.textContent = "GAME OVER";
             } else if (playerGameboard.allShipsSunk()) {
-                gameOverModal.textContent = "YOU HAVE BEEN DEFEATED";
+                gameOverModal.textContent = "GAME OVER";
             }
 
             const boardsContainer = document.getElementsByClassName("boards-container")[0];

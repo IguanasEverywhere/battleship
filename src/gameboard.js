@@ -8,6 +8,7 @@ const gameboard = () => {
     let mostRecentHit;
     let adjacentSpaces = [];
     let underAttackSpaces = [];
+    let attackDirection = "horizontal";
 
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
@@ -108,7 +109,7 @@ const gameboard = () => {
 
 
 
-    return { underAttackSpaces, adjacentSpaces, mostRecentHit, coordinatesArr, placedShipArray, getCoordinatesArr, placeShipHorizontally, placeShipVertically, resetPieces, receiveAttack, clearMissedShots, allShipsSunk, missedShots, landedShots };
+    return { attackDirection, underAttackSpaces, adjacentSpaces, mostRecentHit, coordinatesArr, placedShipArray, getCoordinatesArr, placeShipHorizontally, placeShipVertically, resetPieces, receiveAttack, clearMissedShots, allShipsSunk, missedShots, landedShots };
 }
 
 const playerGameboard = gameboard();

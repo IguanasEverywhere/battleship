@@ -52,18 +52,16 @@ const computerTurn = () => {
     playerGameboard.missedShots.forEach(shot => prevAttackedSpaces.push(shot));
 
     const attackDown = (anchor) => {
-        if (prevAttackedSpaces.find(space => space.x === anchor.x+1 && space.y === anchor.y)) {
+        if (prevAttackedSpaces.find(space => space.x === anchor.x + 1 && space.y === anchor.y)) {
             anchor = playerGameboard.underAttackSpaces[0];
         }
-        if (!prevAttackedSpaces.find( space => space.x === anchor.x+1 && space.y === anchor.y)&&anchor.x+1 <10) {
+        if (!prevAttackedSpaces.find(space => space.x === anchor.x + 1 && space.y === anchor.y) && anchor.x + 1 < 10) {
             xCoord = anchor.x + 1;
             yCoord = anchor.y;
         } else { // in case ships are bunched together and it has nowhere to go
             xCoord = randomCoordGenerator();
             yCoord = randomCoordGenerator();
         }
-      
-
     }
 
     const attackUp = () => {
@@ -87,25 +85,28 @@ const computerTurn = () => {
             yCoord = anchor.y - 1;
         } else {
             attackUp();
+            playerGameboard.attackDirection = "vertical";
+           
         }
 
     }
 
     if (playerGameboard.underAttackSpaces.length > 0) {
-        if (!prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y + 1) && anchor.y + 1 < 10) {
+        if (playerGameboard.attackDirection === "horizontal") {
 
-            attackRight(anchor);
 
-        } else {
-            if (prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y - 1)) {
-                anchor = playerGameboard.underAttackSpaces[0];
+            if (!prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y + 1) && anchor.y + 1 < 10) {
+                attackRight(anchor);
+            } else {
+                if (prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y - 1)) {
+                    anchor = playerGameboard.underAttackSpaces[0];
+                }
+                attackLeft(anchor);
+
             }
-            attackLeft(anchor);
-
+        } else if (playerGameboard.attackDirection === "vertical") {
+            attackUp();
         }
-
-
-
     } else {
         xCoord = randomCoordGenerator();
         yCoord = randomCoordGenerator();
@@ -124,6 +125,7 @@ const computerTurn = () => {
         let playerInstructionsContent = "The enemy sunk your " + hitShip.shipName.toUpperCase();
         playerGameboard.mostRecentHit = null;
         playerGameboard.underAttackSpaces = [];
+        playerGameboard.attackDirection = "horizontal";
         updatePlayerBoardDomAfterSink(playerInstructionsContent, hitShip);
     }
 

@@ -93,8 +93,6 @@ const computerTurn = () => {
 
     if (playerGameboard.underAttackSpaces.length > 0) {
         if (playerGameboard.attackDirection === "horizontal") {
-
-
             if (!prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y + 1) && anchor.y + 1 < 10) {
                 attackRight(anchor);
             } else {

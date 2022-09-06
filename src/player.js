@@ -1,4 +1,4 @@
-import { last } from "lodash";
+import _, { last } from "lodash";
 import { playerGameboard, computerGameboard } from "./gameboard";
 import { controlGame } from "./gameLoop";
 import { updateComputerBoardDom, updateBoardDomAfterSink, updatePlayerBoardDomAfterSink, updatePlayerBoardDom } from "./updateBoardDom";
@@ -47,7 +47,7 @@ const computerTurn = () => {
 
     let prevAttackedSpaces = [];
     let anchor = playerGameboard.underAttackSpaces[playerGameboard.underAttackSpaces.length - 1];
-  
+
     playerGameboard.landedShots.forEach(shot => prevAttackedSpaces.push(shot));
     playerGameboard.missedShots.forEach(shot => prevAttackedSpaces.push(shot));
 
@@ -55,23 +55,25 @@ const computerTurn = () => {
         if (prevAttackedSpaces.find(space => space.x === anchor.x+1 && space.y === anchor.y)) {
             anchor = playerGameboard.underAttackSpaces[0];
         }
+        if (!prevAttackedSpaces.find( space => space.x === anchor.x+1 && space.y === anchor.y)&&anchor.x+1 <10) {
+            xCoord = anchor.x + 1;
+            yCoord = anchor.y;
+        } else { // in case ships are bunched together and it has nowhere to go
+            xCoord = randomCoordGenerator();
+            yCoord = randomCoordGenerator();
+        }
       
-        xCoord = anchor.x + 1;
-        yCoord = anchor.y;
+
     }
 
     const attackUp = () => {
-
         anchor = playerGameboard.underAttackSpaces[playerGameboard.underAttackSpaces.length - 1];
-        if (!prevAttackedSpaces.find(space => space.x === anchor.x-1 && space.y == anchor.y)) {
+        if (!prevAttackedSpaces.find(space => space.x === anchor.x - 1 && space.y == anchor.y) && anchor.x - 1 >= 0) {
             xCoord = anchor.x - 1;
             yCoord = anchor.y;
         } else {
             attackDown(anchor);
         }
-
-
-        
     }
 
     const attackRight = (anchor) => {
@@ -80,8 +82,7 @@ const computerTurn = () => {
     }
 
     const attackLeft = (anchor) => {
-
-        if (!prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y - 1)) {
+        if (!prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y - 1) && anchor.y - 1 >= 0) {
             xCoord = anchor.x;
             yCoord = anchor.y - 1;
         } else {
@@ -91,14 +92,14 @@ const computerTurn = () => {
     }
 
     if (playerGameboard.underAttackSpaces.length > 0) {
-        if (!prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y + 1)) {
+        if (!prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y + 1) && anchor.y + 1 < 10) {
+
             attackRight(anchor);
 
         } else {
             if (prevAttackedSpaces.find(space => space.x === anchor.x && space.y === anchor.y - 1)) {
                 anchor = playerGameboard.underAttackSpaces[0];
             }
-
             attackLeft(anchor);
 
         }

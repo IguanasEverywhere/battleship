@@ -2,7 +2,7 @@
 
 Created using:
 
-- HTML/CSS/JavaScript
+- HTML/CSS (with Grid and flexbox)/JavaScript
 - TDD Principles, tesing units written using Jest
 - Webpack / Babel transpiling
 
